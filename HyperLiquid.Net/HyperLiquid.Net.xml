@@ -519,6 +519,16 @@
             Defines the source generated JSON serialization contract metadata for a given type.
             </summary>
         </member>
+        <member name="P:HyperLiquid.Net.Converters.HyperLiquidSourceGenerationContext.TriggerDirection">
+            <summary>
+            Defines the source generated JSON serialization contract metadata for a given type.
+            </summary>
+        </member>
+        <member name="P:HyperLiquid.Net.Converters.HyperLiquidSourceGenerationContext.NullableTriggerDirection">
+            <summary>
+            Defines the source generated JSON serialization contract metadata for a given type.
+            </summary>
+        </member>
         <member name="P:HyperLiquid.Net.Converters.HyperLiquidSourceGenerationContext.TwapStatus">
             <summary>
             Defines the source generated JSON serialization contract metadata for a given type.
@@ -1409,6 +1419,11 @@
             Defines the source generated JSON serialization contract metadata for a given type.
             </summary>
         </member>
+        <member name="P:HyperLiquid.Net.Converters.HyperLiquidSourceGenerationContext.HyperLiquidTriggerCondition">
+            <summary>
+            Defines the source generated JSON serialization contract metadata for a given type.
+            </summary>
+        </member>
         <member name="P:HyperLiquid.Net.Converters.HyperLiquidSourceGenerationContext.HyperLiquidTwapCancelResult">
             <summary>
             Defines the source generated JSON serialization contract metadata for a given type.
@@ -1692,6 +1707,28 @@
         </member>
         <member name="M:HyperLiquid.Net.Converters.HyperLiquidSourceGenerationContext.GetTypeInfo(System.Type)">
             <inheritdoc/>
+        </member>
+        <member name="T:HyperLiquid.Net.Converters.HyperLiquidTriggerConditionConverter">
+            <summary>
+            Parses the string Hyperliquid provides for a Trigger, being one of:
+                `null`
+                "N/A"
+                "Triggered"
+                "Price above 100.123"
+                "Price below 100.123"
+            </summary>
+        </member>
+        <member name="M:HyperLiquid.Net.Converters.HyperLiquidTriggerConditionConverter.Read(System.Text.Json.Utf8JsonReader@,System.Type,System.Text.Json.JsonSerializerOptions)">
+            <summary>
+            Read HyperLiquidTriggerCondition
+            </summary>
+            <returns></returns>
+            <exception cref="T:System.InvalidOperationException"></exception>
+        </member>
+        <member name="M:HyperLiquid.Net.Converters.HyperLiquidTriggerConditionConverter.Write(System.Text.Json.Utf8JsonWriter,HyperLiquid.Net.Objects.Models.HyperLiquidTriggerCondition,System.Text.Json.JsonSerializerOptions)">
+            <summary>
+            Write HyperLiquidTriggerCondition
+            </summary>
         </member>
         <member name="T:HyperLiquid.Net.Enums.DelegateDirection">
             <summary>
@@ -2126,6 +2163,21 @@
         <member name="F:HyperLiquid.Net.Enums.TransferDirection.FuturesToSpot">
             <summary>
             Futures to spot
+            </summary>
+        </member>
+        <member name="T:HyperLiquid.Net.Enums.TriggerDirection">
+            <summary>
+            Trigger Direction
+            </summary>
+        </member>
+        <member name="F:HyperLiquid.Net.Enums.TriggerDirection.Above">
+            <summary>
+            Above
+            </summary>
+        </member>
+        <member name="F:HyperLiquid.Net.Enums.TriggerDirection.Below">
+            <summary>
+            Below
             </summary>
         </member>
         <member name="T:HyperLiquid.Net.Enums.TwapStatus">
