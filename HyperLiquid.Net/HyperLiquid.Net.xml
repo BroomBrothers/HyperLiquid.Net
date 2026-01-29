@@ -131,10 +131,10 @@
         <member name="M:HyperLiquid.Net.Clients.BaseApi.HyperLiquidSocketClientApi.SubscribeToUserEventUpdatesAsync(System.String,System.Action{CryptoExchange.Net.Objects.Sockets.DataEvent{HyperLiquid.Net.Objects.Models.HyperLiquidUserTrade[]}},System.Action{CryptoExchange.Net.Objects.Sockets.DataEvent{HyperLiquid.Net.Objects.Models.HyperLiquidUserFunding}},System.Action{CryptoExchange.Net.Objects.Sockets.DataEvent{HyperLiquid.Net.Objects.Models.HyperLiquidLiquidationUpdate}},System.Action{CryptoExchange.Net.Objects.Sockets.DataEvent{HyperLiquid.Net.Objects.Models.HyperLiquidNonUserCancelation[]}},System.Threading.CancellationToken)">
             <inheritdoc />
         </member>
-        <member name="M:HyperLiquid.Net.Clients.BaseApi.HyperLiquidSocketClientApi.SubscribeToTwapTradeUpdatesAsync(System.String,System.Action{CryptoExchange.Net.Objects.Sockets.DataEvent{HyperLiquid.Net.Objects.Models.HyperLiquidTwapStatus[]}},System.Threading.CancellationToken)">
+        <member name="M:HyperLiquid.Net.Clients.BaseApi.HyperLiquidSocketClientApi.SubscribeToTwapTradeUpdatesAsync(System.String,System.Action{CryptoExchange.Net.Objects.Sockets.DataEvent{HyperLiquid.Net.Objects.Models.HyperLiquidUserTrade[]}},System.Threading.CancellationToken)">
             <inheritdoc />
         </member>
-        <member name="M:HyperLiquid.Net.Clients.BaseApi.HyperLiquidSocketClientApi.SubscribeToTwapOrderUpdatesAsync(System.String,System.Action{CryptoExchange.Net.Objects.Sockets.DataEvent{HyperLiquid.Net.Objects.Models.HyperLiquidTwapOrderStatus[]}},System.Threading.CancellationToken)">
+        <member name="M:HyperLiquid.Net.Clients.BaseApi.HyperLiquidSocketClientApi.SubscribeToTwapOrderUpdatesAsync(System.String,System.Action{CryptoExchange.Net.Objects.Sockets.DataEvent{HyperLiquid.Net.Objects.Models.HyperLiquidTwapHistoryStatus[]}},System.Threading.CancellationToken)">
             <inheritdoc />
         </member>
         <member name="M:HyperLiquid.Net.Clients.BaseApi.HyperLiquidSocketClientApi.FormatSymbol(System.String,System.String,CryptoExchange.Net.SharedApis.TradingMode,System.Nullable{System.DateTime})">
@@ -584,7 +584,7 @@
             Defines the source generated JSON serialization contract metadata for a given type.
             </summary>
         </member>
-        <member name="P:HyperLiquid.Net.Converters.HyperLiquidSourceGenerationContext.HyperLiquidSocketUpdateHyperLiquidTwapOrderUpdate">
+        <member name="P:HyperLiquid.Net.Converters.HyperLiquidSourceGenerationContext.HyperLiquidSocketUpdateHyperLiquidTwapHistoryUpdate">
             <summary>
             Defines the source generated JSON serialization contract metadata for a given type.
             </summary>
@@ -659,12 +659,12 @@
             Defines the source generated JSON serialization contract metadata for a given type.
             </summary>
         </member>
-        <member name="P:HyperLiquid.Net.Converters.HyperLiquidSourceGenerationContext.HyperLiquidTwapOrderUpdate">
+        <member name="P:HyperLiquid.Net.Converters.HyperLiquidSourceGenerationContext.HyperLiquidTwapHistoryUpdate">
             <summary>
             Defines the source generated JSON serialization contract metadata for a given type.
             </summary>
         </member>
-        <member name="P:HyperLiquid.Net.Converters.HyperLiquidSourceGenerationContext.HyperLiquidTwapOrderUpdateArray">
+        <member name="P:HyperLiquid.Net.Converters.HyperLiquidSourceGenerationContext.HyperLiquidTwapHistoryUpdateArray">
             <summary>
             Defines the source generated JSON serialization contract metadata for a given type.
             </summary>
@@ -1414,6 +1414,21 @@
             Defines the source generated JSON serialization contract metadata for a given type.
             </summary>
         </member>
+        <member name="P:HyperLiquid.Net.Converters.HyperLiquidSourceGenerationContext.HyperLiquidTwapHistoryState">
+            <summary>
+            Defines the source generated JSON serialization contract metadata for a given type.
+            </summary>
+        </member>
+        <member name="P:HyperLiquid.Net.Converters.HyperLiquidSourceGenerationContext.HyperLiquidTwapHistoryStatus">
+            <summary>
+            Defines the source generated JSON serialization contract metadata for a given type.
+            </summary>
+        </member>
+        <member name="P:HyperLiquid.Net.Converters.HyperLiquidSourceGenerationContext.HyperLiquidTwapHistoryStatusArray">
+            <summary>
+            Defines the source generated JSON serialization contract metadata for a given type.
+            </summary>
+        </member>
         <member name="P:HyperLiquid.Net.Converters.HyperLiquidSourceGenerationContext.HyperLiquidTwapOrderResult">
             <summary>
             Defines the source generated JSON serialization contract metadata for a given type.
@@ -1440,16 +1455,6 @@
             </summary>
         </member>
         <member name="P:HyperLiquid.Net.Converters.HyperLiquidSourceGenerationContext.HyperLiquidTwapOrderResultIntWrapperArray">
-            <summary>
-            Defines the source generated JSON serialization contract metadata for a given type.
-            </summary>
-        </member>
-        <member name="P:HyperLiquid.Net.Converters.HyperLiquidSourceGenerationContext.HyperLiquidTwapOrderStatus">
-            <summary>
-            Defines the source generated JSON serialization contract metadata for a given type.
-            </summary>
-        </member>
-        <member name="P:HyperLiquid.Net.Converters.HyperLiquidSourceGenerationContext.HyperLiquidTwapOrderStatusArray">
             <summary>
             Defines the source generated JSON serialization contract metadata for a given type.
             </summary>
@@ -1946,6 +1951,36 @@
         <member name="F:HyperLiquid.Net.Enums.OrderStatus.ReduceOnlyRejected">
             <summary>
             Reduce only rejected
+            </summary>
+        </member>
+        <member name="F:HyperLiquid.Net.Enums.OrderStatus.SelfTradeCanceled">
+            <summary>
+            Cancelled as a self trade
+            </summary>
+        </member>
+        <member name="F:HyperLiquid.Net.Enums.OrderStatus.OpenInterestCapCanceled">
+            <summary>
+            Cancelled due to Open Interest cap on the Symbol
+            </summary>
+        </member>
+        <member name="F:HyperLiquid.Net.Enums.OrderStatus.VaultWithdrawalCanceled">
+            <summary>
+            Cancelled due to insufficient margin available due to a vault withdrawal
+            </summary>
+        </member>
+        <member name="F:HyperLiquid.Net.Enums.OrderStatus.DelistedCanceled">
+            <summary>
+            Cancelled due to the Symbol being delisted
+            </summary>
+        </member>
+        <member name="F:HyperLiquid.Net.Enums.OrderStatus.LiquidatedCanceled">
+            <summary>
+            Cancelled due to the Position being liquidated
+            </summary>
+        </member>
+        <member name="F:HyperLiquid.Net.Enums.OrderStatus.ScheduledCanceled">
+            <summary>
+            Cancelled as scheduled by the order expiry
             </summary>
         </member>
         <member name="F:HyperLiquid.Net.Enums.OrderStatus.WaitingFill">
@@ -2680,7 +2715,7 @@
             <param name="ct">Cancellation token for closing this subscription</param>
             <returns>A stream subscription. This stream subscription can be used to be notified when the socket is disconnected/reconnected and to unsubscribe</returns>
         </member>
-        <member name="M:HyperLiquid.Net.Interfaces.Clients.BaseApi.IHyperLiquidSocketClientApi.SubscribeToTwapTradeUpdatesAsync(System.String,System.Action{CryptoExchange.Net.Objects.Sockets.DataEvent{HyperLiquid.Net.Objects.Models.HyperLiquidTwapStatus[]}},System.Threading.CancellationToken)">
+        <member name="M:HyperLiquid.Net.Interfaces.Clients.BaseApi.IHyperLiquidSocketClientApi.SubscribeToTwapTradeUpdatesAsync(System.String,System.Action{CryptoExchange.Net.Objects.Sockets.DataEvent{HyperLiquid.Net.Objects.Models.HyperLiquidUserTrade[]}},System.Threading.CancellationToken)">
             <summary>
             Subscribe to Time Weighted Average Price trade updates, will provided updates for both Spot and Futures orders
             <para><a href="https://hyperliquid.gitbook.io/hyperliquid-docs/for-developers/api/websocket/subscriptions" /></para>
@@ -2690,7 +2725,7 @@
             <param name="ct">Cancellation token for closing this subscription</param>
             <returns>A stream subscription. This stream subscription can be used to be notified when the socket is disconnected/reconnected and to unsubscribe</returns>
         </member>
-        <member name="M:HyperLiquid.Net.Interfaces.Clients.BaseApi.IHyperLiquidSocketClientApi.SubscribeToTwapOrderUpdatesAsync(System.String,System.Action{CryptoExchange.Net.Objects.Sockets.DataEvent{HyperLiquid.Net.Objects.Models.HyperLiquidTwapOrderStatus[]}},System.Threading.CancellationToken)">
+        <member name="M:HyperLiquid.Net.Interfaces.Clients.BaseApi.IHyperLiquidSocketClientApi.SubscribeToTwapOrderUpdatesAsync(System.String,System.Action{CryptoExchange.Net.Objects.Sockets.DataEvent{HyperLiquid.Net.Objects.Models.HyperLiquidTwapHistoryStatus[]}},System.Threading.CancellationToken)">
             <summary>
             Subscribe to Time Weighted Average Price order history updates, will provided updates for both Spot and Futures orders
             <para><a href="https://hyperliquid.gitbook.io/hyperliquid-docs/for-developers/api/websocket/subscriptions" /></para>
@@ -5190,34 +5225,94 @@
             Users
             </summary>
         </member>
-        <member name="T:HyperLiquid.Net.Objects.Models.HyperLiquidTwapOrderResult">
-            <summary>
-            Order result
-            </summary>
-        </member>
-        <member name="P:HyperLiquid.Net.Objects.Models.HyperLiquidTwapOrderResult.TwapId">
-            <summary>
-            Order id
-            </summary>
-        </member>
-        <member name="T:HyperLiquid.Net.Objects.Models.HyperLiquidTwapOrderStatus">
+        <member name="T:HyperLiquid.Net.Objects.Models.HyperLiquidTwapHistoryStatus">
             <summary>
             TWAP order status
             </summary>
         </member>
-        <member name="P:HyperLiquid.Net.Objects.Models.HyperLiquidTwapOrderStatus.TwapInfo">
+        <member name="P:HyperLiquid.Net.Objects.Models.HyperLiquidTwapHistoryStatus.TwapInfo">
             <summary>
             TWAP status
             </summary>
         </member>
-        <member name="P:HyperLiquid.Net.Objects.Models.HyperLiquidTwapOrderStatus.Timestamp">
+        <member name="P:HyperLiquid.Net.Objects.Models.HyperLiquidTwapHistoryStatus.Timestamp">
             <summary>
             Timestamp
             </summary>
         </member>
-        <member name="P:HyperLiquid.Net.Objects.Models.HyperLiquidTwapOrderStatus.Status">
+        <member name="P:HyperLiquid.Net.Objects.Models.HyperLiquidTwapHistoryStatus.Status">
             <summary>
-            Statu
+            Status
+            </summary>
+        </member>
+        <member name="P:HyperLiquid.Net.Objects.Models.HyperLiquidTwapHistoryStatus.TwapId">
+            <summary>
+            TWAP ID
+            </summary>
+        </member>
+        <member name="T:HyperLiquid.Net.Objects.Models.HyperLiquidTwapHistoryState">
+            <summary>
+            State of the Twap Order
+            </summary>
+        </member>
+        <member name="P:HyperLiquid.Net.Objects.Models.HyperLiquidTwapHistoryState.ExchangeSymbol">
+            <summary>
+            Symbol as returned by the API
+            </summary>
+        </member>
+        <member name="P:HyperLiquid.Net.Objects.Models.HyperLiquidTwapHistoryState.Symbol">
+            <summary>
+            Symbol
+            </summary>
+        </member>
+        <member name="P:HyperLiquid.Net.Objects.Models.HyperLiquidTwapHistoryState.SymbolType">
+            <summary>
+            Symbol type
+            </summary>
+        </member>
+        <member name="P:HyperLiquid.Net.Objects.Models.HyperLiquidTwapHistoryState.User">
+            <summary>
+            User
+            </summary>
+        </member>
+        <member name="P:HyperLiquid.Net.Objects.Models.HyperLiquidTwapHistoryState.Side">
+            <summary>
+            Order side
+            </summary>
+        </member>
+        <member name="P:HyperLiquid.Net.Objects.Models.HyperLiquidTwapHistoryState.Quantity">
+            <summary>
+            Quantity
+            </summary>
+        </member>
+        <member name="P:HyperLiquid.Net.Objects.Models.HyperLiquidTwapHistoryState.ExecutedQuantity">
+            <summary>
+            Executed quantity
+            </summary>
+        </member>
+        <member name="P:HyperLiquid.Net.Objects.Models.HyperLiquidTwapHistoryState.ExecutedValue">
+            <summary>
+            Executed value
+            </summary>
+        </member>
+        <member name="P:HyperLiquid.Net.Objects.Models.HyperLiquidTwapHistoryState.Minutes">
+            <summary>
+            Minutes
+            </summary>
+        </member>
+        <member name="P:HyperLiquid.Net.Objects.Models.HyperLiquidTwapHistoryState.ReduceOnly">
+            <summary>
+            Reduce only
+            </summary>
+        </member>
+        <member name="P:HyperLiquid.Net.Objects.Models.HyperLiquidTwapHistoryState.Randomize">
+            <summary>
+            Randomize
+            </summary>
+        </member>
+        <member name="P:HyperLiquid.Net.Objects.Models.HyperLiquidTwapHistoryState.Timestamp">
+            <summary>
+            Timestamp
             </summary>
         </member>
         <member name="T:HyperLiquid.Net.Objects.Models.HyperLiquidTwapOrderStatusDesc">
@@ -5235,69 +5330,29 @@
             Description
             </summary>
         </member>
+        <member name="T:HyperLiquid.Net.Objects.Models.HyperLiquidTwapOrderResult">
+            <summary>
+            Order result
+            </summary>
+        </member>
+        <member name="P:HyperLiquid.Net.Objects.Models.HyperLiquidTwapOrderResult.TwapId">
+            <summary>
+            Order id
+            </summary>
+        </member>
         <member name="T:HyperLiquid.Net.Objects.Models.HyperLiquidTwapStatus">
             <summary>
             Twap status
             </summary>
         </member>
-        <member name="P:HyperLiquid.Net.Objects.Models.HyperLiquidTwapStatus.ExchangeSymbol">
+        <member name="P:HyperLiquid.Net.Objects.Models.HyperLiquidTwapStatus.TwapId">
             <summary>
-            Symbol as returned by the API
+            ID of the Twap Order
             </summary>
         </member>
-        <member name="P:HyperLiquid.Net.Objects.Models.HyperLiquidTwapStatus.Symbol">
+        <member name="P:HyperLiquid.Net.Objects.Models.HyperLiquidTwapStatus.Fill">
             <summary>
-            Symbol
-            </summary>
-        </member>
-        <member name="P:HyperLiquid.Net.Objects.Models.HyperLiquidTwapStatus.SymbolType">
-            <summary>
-            Symbol type
-            </summary>
-        </member>
-        <member name="P:HyperLiquid.Net.Objects.Models.HyperLiquidTwapStatus.User">
-            <summary>
-            User
-            </summary>
-        </member>
-        <member name="P:HyperLiquid.Net.Objects.Models.HyperLiquidTwapStatus.Side">
-            <summary>
-            Order side
-            </summary>
-        </member>
-        <member name="P:HyperLiquid.Net.Objects.Models.HyperLiquidTwapStatus.Quantity">
-            <summary>
-            Quantity
-            </summary>
-        </member>
-        <member name="P:HyperLiquid.Net.Objects.Models.HyperLiquidTwapStatus.ExecutedQuantity">
-            <summary>
-            Executed quantity
-            </summary>
-        </member>
-        <member name="P:HyperLiquid.Net.Objects.Models.HyperLiquidTwapStatus.ExecutedValue">
-            <summary>
-            Executed value
-            </summary>
-        </member>
-        <member name="P:HyperLiquid.Net.Objects.Models.HyperLiquidTwapStatus.Minutes">
-            <summary>
-            Minutes
-            </summary>
-        </member>
-        <member name="P:HyperLiquid.Net.Objects.Models.HyperLiquidTwapStatus.ReduceOnly">
-            <summary>
-            Reduce only
-            </summary>
-        </member>
-        <member name="P:HyperLiquid.Net.Objects.Models.HyperLiquidTwapStatus.Randomize">
-            <summary>
-            Randomize
-            </summary>
-        </member>
-        <member name="P:HyperLiquid.Net.Objects.Models.HyperLiquidTwapStatus.Timestamp">
-            <summary>
-            Timestamp
+            Fill
             </summary>
         </member>
         <member name="T:HyperLiquid.Net.Objects.Models.HyperLiquidUserAgent">
