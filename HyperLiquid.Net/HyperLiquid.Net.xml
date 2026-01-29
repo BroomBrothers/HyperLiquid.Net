@@ -52,6 +52,9 @@
         <member name="M:HyperLiquid.Net.Clients.BaseApi.HyperLiquidRestClientTrading.GetUserTradesByTimeAsync(System.DateTime,System.Nullable{System.DateTime},System.Nullable{System.Boolean},System.String,System.Threading.CancellationToken)">
             <inheritdoc />
         </member>
+        <member name="M:HyperLiquid.Net.Clients.BaseApi.HyperLiquidRestClientTrading.GetUserTwapTradesAsync(System.String,System.Threading.CancellationToken)">
+            <inheritdoc />
+        </member>
         <member name="M:HyperLiquid.Net.Clients.BaseApi.HyperLiquidRestClientTrading.GetOrderAsync(System.Nullable{System.Int64},System.String,System.String,System.Threading.CancellationToken)">
             <inheritdoc />
         </member>
@@ -2498,6 +2501,14 @@
             <param name="address">Address to request user trades for. If not provided will use the address provided in the API credentials</param>
             <param name="ct">Cancellation token</param>
         </member>
+        <member name="M:HyperLiquid.Net.Interfaces.Clients.BaseApi.IHyperLiquidRestClientTrading.GetUserTwapTradesAsync(System.String,System.Threading.CancellationToken)">
+            <summary>
+            Get the last 2000 user TWAP trades, will return both Spot and Futures
+            <para><a href="https://hyperliquid.gitbook.io/hyperliquid-docs/for-developers/api/info-endpoint#retrieve-a-users-twap-slice-fills" /></para>
+            </summary>
+            <param name="address">Address to request user TWAP trades for. If not provided will use the address provided in the API credentials</param>
+            <param name="ct">Cancellation token</param>
+        </member>
         <member name="M:HyperLiquid.Net.Interfaces.Clients.BaseApi.IHyperLiquidRestClientTrading.GetOrderAsync(System.Nullable{System.Int64},System.String,System.String,System.Threading.CancellationToken)">
             <summary>
             Get order info by id
@@ -4782,6 +4793,11 @@
             Trigger condition
             </summary>
         </member>
+        <member name="P:HyperLiquid.Net.Objects.Models.HyperLiquidOrder.TriggerConditionEx">
+            <summary>
+            Trigger condition
+            </summary>
+        </member>
         <member name="P:HyperLiquid.Net.Objects.Models.HyperLiquidOrder.TriggerPrice">
             <summary>
             Trigger price
@@ -5276,6 +5292,45 @@
             <summary>
             Users
             </summary>
+        </member>
+        <member name="T:HyperLiquid.Net.Objects.Models.HyperLiquidTriggerCondition">
+            <summary>
+            Trigger condition
+            </summary>
+        </member>
+        <member name="P:HyperLiquid.Net.Objects.Models.HyperLiquidTriggerCondition.Active">
+            <summary>
+            Whether the Trigger is currently Active.
+            True if has Direction + Price.
+            False if no Direction + Price, or is Triggered.
+            </summary>
+        </member>
+        <member name="P:HyperLiquid.Net.Objects.Models.HyperLiquidTriggerCondition.Triggered">
+            <summary>
+            Whether the Trigger has fired, Price and Direction are unavailable.
+            </summary>
+        </member>
+        <member name="P:HyperLiquid.Net.Objects.Models.HyperLiquidTriggerCondition.Direction">
+            <summary>
+            Direction of the Trigger, only available when Active == true
+            </summary>
+        </member>
+        <member name="P:HyperLiquid.Net.Objects.Models.HyperLiquidTriggerCondition.Price">
+            <summary>
+            Price of the Trigger, only available when Active == true
+            </summary>
+        </member>
+        <member name="M:HyperLiquid.Net.Objects.Models.HyperLiquidTriggerCondition.#ctor">
+            <summary>
+            Default ctor
+            </summary>
+        </member>
+        <member name="M:HyperLiquid.Net.Objects.Models.HyperLiquidTriggerCondition.#ctor(HyperLiquid.Net.Enums.TriggerDirection,System.Decimal)">
+            <summary>
+            Ctor for an Active Trigger Condition
+            </summary>
+            <param name="direction">Whether the price must be below or above the specified price</param>
+            <param name="price">The price of the trigger</param>
         </member>
         <member name="T:HyperLiquid.Net.Objects.Models.HyperLiquidTwapHistoryStatus">
             <summary>
