@@ -2387,6 +2387,23 @@
             Event when the rate limit is updated. Note that it's only updated when a request is send, so there are no specific updates when the current usage is decaying.
             </summary>
         </member>
+        <member name="P:HyperLiquid.Net.HyperLiquidRateLimiters.HyperLiquidRest">
+            <summary>
+            Rate limiter for the HyperLiquid REST API
+            </summary>
+        </member>
+        <member name="P:HyperLiquid.Net.HyperLiquidRateLimiters.HyperLiquidSocket">
+            <summary>
+            Rate limiter for the HyperLiquid Socket API
+            </summary>
+        </member>
+        <member name="M:HyperLiquid.Net.HyperLiquidRateLimiters.Override(CryptoExchange.Net.RateLimiting.Interfaces.IRateLimitGate,CryptoExchange.Net.RateLimiting.Interfaces.IRateLimitGate)">
+            <summary>
+            Override the Hyperliquid Rate Limiters if you have custom rate limits
+            </summary>
+            <param name="restGate">Rate limiter for the Rest clients</param>
+            <param name="socketGate">Rate limiter for the Socket clients</param>
+        </member>
         <member name="T:HyperLiquid.Net.HyperLiquidTrackerFactory">
             <inheritdoc />
         </member>
@@ -5310,6 +5327,16 @@
         <member name="P:HyperLiquid.Net.Objects.Models.HyperLiquidTrade.Users">
             <summary>
             Users
+            </summary>
+        </member>
+        <member name="P:HyperLiquid.Net.Objects.Models.HyperLiquidTrade.Buyer">
+            <summary>
+            The user on the buyer side of the Trade
+            </summary>
+        </member>
+        <member name="P:HyperLiquid.Net.Objects.Models.HyperLiquidTrade.Seller">
+            <summary>
+            The user on the seller side of the Trade
             </summary>
         </member>
         <member name="T:HyperLiquid.Net.Objects.Models.HyperLiquidTriggerCondition">
