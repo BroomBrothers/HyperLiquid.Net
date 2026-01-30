@@ -323,6 +323,59 @@ namespace HyperLiquid.Net.Clients.BaseApi
         }
 
         /// <inheritdoc />
+        public async Task<CallResult<UpdateSubscription>> SubscribeToOrderHistoryUpdatesAsync(string? address, Action<DataEvent<HyperLiquidOrderStatus[]>> onMessage, CancellationToken ct = default)
+        {
+            if (address == null && AuthenticationProvider == null)
+                throw new ArgumentNullException(nameof(address), "Address needs to be provided if API credentials not set");
+
+            ValidateAddress(address);
+
+            var result = await HyperLiquidUtils.UpdateSpotSymbolInfoAsync(_restClient).ConfigureAwait(false);
+            if (!result)
+                return new CallResult<UpdateSubscription>(result.Error!);
+
+            var internalHandler = new Action<DateTime, string?, int, HyperLiquidSocketUpdate<HyperLiquidOrderHistoryUpdate>>((receiveTime, originalData, invocation, data) =>
+            {
+                var timestamp = data.Data.Orders.Max(x => x.Order.Timestamp);
+                if (invocation != 1)
+                    UpdateTimeOffset(timestamp);
+
+                foreach (var order in data.Data.Orders)
+                {
+                    if (HyperLiquidUtils.ExchangeSymbolIsSpotSymbol(order.Order.ExchangeSymbol))
+                    {
+                        var symbolName = HyperLiquidUtils.GetSymbolNameFromExchangeName(ClientOptions.Environment.Name, order.Order.ExchangeSymbol);
+                        if (symbolName == null)
+                            continue;
+
+                        order.Order.Symbol = symbolName.Data;
+                        order.Order.SymbolType = SymbolType.Spot;
+                    }
+                    else
+                    {
+                        order.Order.Symbol = order.Order.ExchangeSymbol;
+                        order.Order.SymbolType = SymbolType.Futures;
+                    }
+                }
+
+                onMessage(
+                    new DataEvent<HyperLiquidOrderStatus[]>(HyperLiquidExchange.ExchangeName, data.Data.Orders, receiveTime, originalData)
+                        .WithUpdateType(SocketUpdateType.Update)
+                        .WithStreamId(data.Channel)
+                        .WithDataTimestamp(timestamp, GetTimeOffset())
+                    );
+            });
+
+            var addressSub = address ?? AuthenticationProvider!.ApiKey;
+            var subscription = new HyperLiquidSubscription<HyperLiquidOrderHistoryUpdate>(_logger, this, "userHistoricalOrders", null, new Dictionary<string, object>
+            {
+                { "user", addressSub.ToLowerInvariant() },
+            },
+            internalHandler, false);
+            return await SubscribeAsync(BaseAddress.AppendPath("ws"), subscription, ct).ConfigureAwait(false);
+        }
+
+        /// <inheritdoc />
         public async Task<CallResult<UpdateSubscription>> SubscribeToUserLedgerUpdatesAsync(string? address, Action<DataEvent<HyperLiquidAccountLedger>> onMessage, CancellationToken ct = default)
         {
             if (address == null && AuthenticationProvider == null)
