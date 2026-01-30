@@ -336,7 +336,7 @@ namespace HyperLiquid.Net.Clients.BaseApi
         #endregion
 
         #region Place Order
-
+        /// <inheritdoc />
         public async Task<WebCallResult<HyperLiquidOrderResult>> PlaceOrderAsync(
             string symbol,
             OrderSide side,
@@ -351,6 +351,8 @@ namespace HyperLiquid.Net.Clients.BaseApi
             TpSlGrouping? tpSlGrouping = null, 
 			string? vaultAddress = null,
             DateTime? expiresAfter = null,
+            decimal? builderFeePercentage = null,
+            string? builderAddress = null,
             CancellationToken ct = default)
         {
             var result = await PlaceMultipleOrdersAsync([
@@ -377,6 +379,8 @@ namespace HyperLiquid.Net.Clients.BaseApi
             TpSlGrouping? tpSlGrouping = null,
 			string? vaultAddress = null,
             DateTime? expireAfter = null,
+            decimal? builderFeePercentage = null,
+            string? builderAddress = null,
             CancellationToken ct = default)
         {
             var orderRequests = new List<ParameterCollection>();
@@ -456,14 +460,16 @@ namespace HyperLiquid.Net.Clients.BaseApi
             else
                 actionParameters.Add("grouping", "na");
 
-            if (_baseClient.ClientOptions.BuilderFeePercentage > 0 && _baseClient.ClientOptions.BuilderAddress != null)
+            builderFeePercentage ??= _baseClient.ClientOptions.BuilderFeePercentage;
+            builderAddress ??= _baseClient.ClientOptions.BuilderAddress;
+            if (builderFeePercentage > 0 && builderAddress != null)
             {
                 // Convert from percentage to 1/10 basis point
-                var tenthPoints = (int)(_baseClient.ClientOptions.BuilderFeePercentage * 1000);
+                var tenthPoints = (int)(builderFeePercentage * 1000);
                 actionParameters.Add("builder",
                     new ParameterCollection
                     {
-                        { "b", _baseClient.ClientOptions.BuilderAddress.ToLower() },
+                        { "b", builderAddress.ToLower() },
                         { "f", tenthPoints }
                     }
                 );
