@@ -357,7 +357,7 @@ namespace HyperLiquid.Net.Clients.BaseApi
         {
             var result = await PlaceMultipleOrdersAsync([
                 new HyperLiquidOrderRequest(symbol, side, orderType, quantity, price, timeInForce, reduceOnly, triggerPrice: triggerPrice, tpSlType: tpSlType, clientOrderId: clientOrderId)
-                ], tpSlGrouping, vaultAddress, expiresAfter, ct).ConfigureAwait(false);
+                ], tpSlGrouping, vaultAddress, expiresAfter, builderFeePercentage, builderAddress, ct).ConfigureAwait(false);
 
             if (!result)
                 return result.As<HyperLiquidOrderResult>(default);
