@@ -151,6 +151,11 @@ namespace HyperLiquid.Net.Interfaces.Clients.SpotApi
         /// <param name="ct">Cancellation token</param>
         Task<WebCallResult> ApproveBuilderFeeAsync(string builderAddress, decimal maxFeePercentage, CancellationToken ct = default);
 
+        string GetApproveBuilderFeeEip721(string builderAddress, decimal maxFeePercentage, long nonce);
+
+        Task<WebCallResult> ApproveBuilderFeeSignedAsync(string builderAddress, decimal maxFeePercentage,
+            long nonce, string signature, CancellationToken ct = default);
+
         /// <summary>
         /// Get sub account list
         /// </summary>
@@ -171,5 +176,22 @@ namespace HyperLiquid.Net.Interfaces.Clients.SpotApi
         /// <param name="address">Address to request agents for. If not provided will use the address provided in the API credentials</param>
         /// <param name="ct">Cancellation token</param>
         Task<WebCallResult<HyperLiquidUserAgent[]>> GetExtraAgentsAsync(string? address = null, CancellationToken ct = default);
+
+        Task<WebCallResult> ApproveExtraAgentAsync(string agentAddress, string agentName, DateTime? validUntil,
+            CancellationToken ct = default);
+
+        string GetApproveExtraAgentEip721(string agentAddress, string agentName, DateTime? validUntil, long nonce);
+
+        Task<WebCallResult> ApproveExtraAgentSignedAsync(string agentAddress, string agentName, DateTime? validUntil,
+            long nonce, string signature, CancellationToken ct = default);
+
+
+        /// <summary>
+        /// Get user referral information
+        /// <para><a href="https://hyperliquid.gitbook.io/hyperliquid-docs/for-developers/api/info-endpoint" /></para>
+        /// </summary>
+        /// <param name="address">Address to request referral information for. If not provided will use the address provided in the API credentials</param>
+        /// <param name="ct">Cancellation token</param>
+        Task<WebCallResult<HyperliquidReferralInfo>> GetReferralInfoAsync(string? address = null, CancellationToken ct = default);
     }
 }

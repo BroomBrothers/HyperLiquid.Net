@@ -2,6 +2,7 @@ using CryptoExchange.Net.Objects;
 using System.Net.Http;
 using System.Threading.Tasks;
 using System.Threading;
+using System.Collections.Generic;
 using HyperLiquid.Net.Objects.Models;
 using System;
 using HyperLiquid.Net.Utils;
@@ -311,22 +312,15 @@ namespace HyperLiquid.Net.Clients.SpotApi
 
         /// <inheritdoc />
         public Task<WebCallResult> ApproveBuilderFeeAsync(CancellationToken ct = default)
-            => ApproveBuilderFeeAsync(_baseClient.ClientOptions.BuilderAddress, _baseClient.ClientOptions.BuilderFeePercentage ?? 0.1m);
+            => ApproveBuilderFeeAsync(_baseClient.ClientOptions.BuilderAddress, _baseClient.ClientOptions.BuilderFeePercentage ?? 0.1m, ct);
 
         /// <inheritdoc />
         public async Task<WebCallResult> ApproveBuilderFeeAsync(string builderAddress, decimal maxFeePercentage, CancellationToken ct = default)
         {
             // NOTE; order of the parameters matters
-            var actionParameters = new ParameterCollection()
-            {
-                { "hyperliquidChain", _baseClient.ClientOptions.Environment.Name == TradeEnvironmentNames.Testnet ? "Testnet" : "Mainnet" },
-                { "maxFeeRate", $"{maxFeePercentage.ToString(CultureInfo.InvariantCulture)}%" },
-                { "builder", builderAddress },
-                { "nonce", DateTimeConverter.ConvertToMilliseconds(DateTime.UtcNow).Value },
-                { "signatureChainId", _baseClient.ClientOptions.Environment.Name == TradeEnvironmentNames.Testnet ? _chainIdTestnet : _chainIdMainnet },
-                { "type", "approveBuilderFee" },
-            };
-
+            var nonce = DateTimeConverter.ConvertToMilliseconds(DateTime.UtcNow).Value;
+            var actionParameters = GetApproveBuilderFeeParameters(builderAddress, maxFeePercentage, nonce);
+            
             var parameters = new ParameterCollection()
             {
                 {
@@ -337,6 +331,59 @@ namespace HyperLiquid.Net.Clients.SpotApi
             var request = _definitions.GetOrCreate(HttpMethod.Post, "exchange", HyperLiquidExchange.RateLimiter.HyperLiquidRest, 1, true);
             var result = await _baseClient.SendAuthAsync<HyperLiquidDefault>(request, parameters, ct).ConfigureAwait(false);
             return result.AsDataless();
+        }
+
+        public string GetApproveBuilderFeeEip721(
+            string builderAddress,
+            decimal maxFeePercentage,
+            long nonce)
+        {
+            var chainId = _baseClient.ClientOptions.Environment.Name == TradeEnvironmentNames.Testnet ? _chainIdTestnet : _chainIdMainnet;
+            var actionParameters = GetApproveBuilderFeeParameters(builderAddress, maxFeePercentage, nonce);
+
+            var userActions = new Dictionary<string, object>()
+            {
+                { "name", "HyperliquidSignTransaction" },
+                { "version", "1" },
+                { "chainId",  Convert.ToInt32(chainId, 16) },
+                { "verifyingContract", "0x0000000000000000000000000000000000000000" }
+            };
+
+            var types = HyperLiquidAuthenticationProvider.GetSignatureTypes("ApproveBuilderFee", actionParameters);
+            var typedDataJson = HyperLiquidAuthenticationProvider.EncodeEip712Json(userActions, types, actionParameters);
+            return typedDataJson;
+        }
+
+        public async Task<WebCallResult> ApproveBuilderFeeSignedAsync(string builderAddress, decimal maxFeePercentage,
+            long nonce, string signature, CancellationToken ct = default)
+        {
+            var actionParameters = GetApproveBuilderFeeParameters(builderAddress, maxFeePercentage, nonce);
+
+            var parameters = new ParameterCollection()
+            {
+                { "action", actionParameters },
+                { "signature", signature }
+            };
+
+            var request = _definitions.GetOrCreate(HttpMethod.Post, "exchange", HyperLiquidExchange.RateLimiter.HyperLiquidRest, 1, true);
+            var result = await _baseClient.SendAuthAsync<HyperLiquidDefault>(request, parameters, ct).ConfigureAwait(false);
+            return result.AsDataless();
+        }
+
+        private ParameterCollection GetApproveBuilderFeeParameters(string builderAddress, decimal maxFeePercentage, long nonce)
+        {
+            var chainId = _baseClient.ClientOptions.Environment.Name == TradeEnvironmentNames.Testnet ? _chainIdTestnet : _chainIdMainnet;
+            var actionParameters = new ParameterCollection()
+            {
+                { "hyperliquidChain", _baseClient.ClientOptions.Environment.Name == TradeEnvironmentNames.Testnet ? "Testnet" : "Mainnet" },
+                { "maxFeeRate", $"{maxFeePercentage.ToString(CultureInfo.InvariantCulture)}%" },
+                { "builder", builderAddress },
+                { "nonce", nonce },
+                { "signatureChainId", chainId },
+                { "type", "approveBuilderFee" },
+            };
+            
+            return actionParameters;
         }
 
         #endregion
@@ -394,7 +441,108 @@ namespace HyperLiquid.Net.Clients.SpotApi
             return await _baseClient.SendAsync<HyperLiquidUserAgent[]>(request, parameters, ct).ConfigureAwait(false);
         }
 
+
+
         #endregion
 
+        #region Approve Extra Agents
+
+        /// <inheritdoc />
+        public async Task<WebCallResult> ApproveExtraAgentAsync(string agentAddress, string agentName, DateTime? validUntil, CancellationToken ct = default)
+        {
+            if(validUntil - DateTime.UtcNow > TimeSpan.FromDays(180))
+                throw new ArgumentException("validUntil cannot be more than 180 days in the future", nameof(validUntil));
+
+            // NOTE; order of the parameters matters
+            var nonce = DateTimeConverter.ConvertToMilliseconds(DateTime.UtcNow).Value;
+            var actionParameters = GetApproveExtraAgentParameters(agentAddress, agentName, validUntil, nonce);
+
+            var parameters = new ParameterCollection()
+            {
+                {
+                    "action", actionParameters
+                }
+            };
+
+            var request = _definitions.GetOrCreate(HttpMethod.Post, "exchange", HyperLiquidExchange.RateLimiter.HyperLiquidRest, 1, true);
+            var result = await _baseClient.SendAuthAsync<HyperLiquidDefault>(request, parameters, ct).ConfigureAwait(false);
+            return result.AsDataless();
+        }
+
+        public string GetApproveExtraAgentEip721(string agentAddress, string agentName, DateTime? validUntil, long nonce)
+        {
+            var chainId = _baseClient.ClientOptions.Environment.Name == TradeEnvironmentNames.Testnet ? _chainIdTestnet : _chainIdMainnet;
+            var actionParameters = GetApproveExtraAgentParameters(agentAddress, agentName, validUntil, nonce);
+
+            var userActions = new Dictionary<string, object>()
+            {
+                { "name", "HyperliquidSignTransaction" },
+                { "version", "1" },
+                { "chainId",  Convert.ToInt32(chainId, 16) },
+                { "verifyingContract", "0x0000000000000000000000000000000000000000" }
+            };
+
+            var types = HyperLiquidAuthenticationProvider.GetSignatureTypes("ApproveAgent", actionParameters);
+            var typedDataJson = HyperLiquidAuthenticationProvider.EncodeEip712Json(userActions, types, actionParameters);
+            return typedDataJson;
+        }
+
+        public async Task<WebCallResult> ApproveExtraAgentSignedAsync(string agentAddress, string agentName, DateTime? validUntil, long nonce,
+            string signature, CancellationToken ct = default)
+        {
+            var actionParameters = GetApproveExtraAgentParameters(agentAddress, agentName, validUntil, nonce);
+
+            var parameters = new ParameterCollection()
+            {
+                { "action", actionParameters },
+                { "signature", signature }
+            };
+
+            var request = _definitions.GetOrCreate(HttpMethod.Post, "exchange", HyperLiquidExchange.RateLimiter.HyperLiquidRest, 1, true);
+            var result = await _baseClient.SendAuthAsync<HyperLiquidDefault>(request, parameters, ct).ConfigureAwait(false);
+            return result.AsDataless();
+        }
+
+        private ParameterCollection GetApproveExtraAgentParameters(string agentAddress, string agentName, DateTime? validUntil, long nonce)
+        {
+            // Hyperliquid passes valid_until as part of the agent name (because Jeff).
+            if (validUntil != null)
+                agentName += " valid_until " + DateTimeConverter.ConvertToMilliseconds(validUntil.Value).Value;
+
+            var chainId = _baseClient.ClientOptions.Environment.Name == TradeEnvironmentNames.Testnet ? _chainIdTestnet : _chainIdMainnet;
+            var actionParameters = new ParameterCollection()
+            {
+                { "hyperliquidChain", _baseClient.ClientOptions.Environment.Name == TradeEnvironmentNames.Testnet ? "Testnet" : "Mainnet" },
+                { "agentAddress", agentAddress },
+                { "agentName", agentName },
+                { "nonce", nonce },
+                { "signatureChainId", chainId },
+                { "type", "approveAgent" }
+            };
+
+            return actionParameters;
+        }
+
+
+        #endregion
+
+        #region Get Referral Info
+
+        /// <inheritdoc />
+        public async Task<WebCallResult<HyperliquidReferralInfo>> GetReferralInfoAsync(string? address = null, CancellationToken ct = default)
+        {
+            if (address == null && _baseClient.AuthenticationProvider == null)
+                throw new ArgumentNullException(nameof(address), "Address needs to be provided if API credentials not set");
+
+            var parameters = new ParameterCollection()
+            {
+                { "type", "referral" },
+                { "user", address ?? _baseClient.AuthenticationProvider!.ApiKey }
+            };
+            var request = _definitions.GetOrCreate(HttpMethod.Post, "info", HyperLiquidExchange.RateLimiter.HyperLiquidRest, 2, false);
+            return await _baseClient.SendAsync<HyperliquidReferralInfo>(request, parameters, ct).ConfigureAwait(false);
+        }
+
+        #endregion
     }
 }

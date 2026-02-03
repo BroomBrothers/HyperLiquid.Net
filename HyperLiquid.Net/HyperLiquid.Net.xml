@@ -407,6 +407,12 @@
         <member name="M:HyperLiquid.Net.Clients.SpotApi.HyperLiquidRestClientSpotApiAccount.GetExtraAgentsAsync(System.String,System.Threading.CancellationToken)">
             <inheritdoc />
         </member>
+        <member name="M:HyperLiquid.Net.Clients.SpotApi.HyperLiquidRestClientSpotApiAccount.ApproveExtraAgentAsync(System.String,System.String,System.Nullable{System.DateTime},System.Threading.CancellationToken)">
+            <inheritdoc />
+        </member>
+        <member name="M:HyperLiquid.Net.Clients.SpotApi.HyperLiquidRestClientSpotApiAccount.GetReferralInfoAsync(System.String,System.Threading.CancellationToken)">
+            <inheritdoc />
+        </member>
         <member name="T:HyperLiquid.Net.Clients.SpotApi.HyperLiquidRestClientSpotApiExchangeData">
             <inheritdoc />
         </member>
@@ -1328,6 +1334,36 @@
             Defines the source generated JSON serialization contract metadata for a given type.
             </summary>
         </member>
+        <member name="P:HyperLiquid.Net.Converters.HyperLiquidSourceGenerationContext.HyperliquidReferralInfo">
+            <summary>
+            Defines the source generated JSON serialization contract metadata for a given type.
+            </summary>
+        </member>
+        <member name="P:HyperLiquid.Net.Converters.HyperLiquidSourceGenerationContext.HyperliquidReferralState">
+            <summary>
+            Defines the source generated JSON serialization contract metadata for a given type.
+            </summary>
+        </member>
+        <member name="P:HyperLiquid.Net.Converters.HyperLiquidSourceGenerationContext.HyperliquidReferralStateArray">
+            <summary>
+            Defines the source generated JSON serialization contract metadata for a given type.
+            </summary>
+        </member>
+        <member name="P:HyperLiquid.Net.Converters.HyperLiquidSourceGenerationContext.HyperliquidReferredBy">
+            <summary>
+            Defines the source generated JSON serialization contract metadata for a given type.
+            </summary>
+        </member>
+        <member name="P:HyperLiquid.Net.Converters.HyperLiquidSourceGenerationContext.HyperliquidReferrerState">
+            <summary>
+            Defines the source generated JSON serialization contract metadata for a given type.
+            </summary>
+        </member>
+        <member name="P:HyperLiquid.Net.Converters.HyperLiquidSourceGenerationContext.HyperliquidReferrerStateData">
+            <summary>
+            Defines the source generated JSON serialization contract metadata for a given type.
+            </summary>
+        </member>
         <member name="P:HyperLiquid.Net.Converters.HyperLiquidSourceGenerationContext.HyperLiquidResponse">
             <summary>
             Defines the source generated JSON serialization contract metadata for a given type.
@@ -1424,6 +1460,11 @@
             </summary>
         </member>
         <member name="P:HyperLiquid.Net.Converters.HyperLiquidSourceGenerationContext.HyperLiquidTickerArray">
+            <summary>
+            Defines the source generated JSON serialization contract metadata for a given type.
+            </summary>
+        </member>
+        <member name="P:HyperLiquid.Net.Converters.HyperLiquidSourceGenerationContext.HyperliquidTokenState">
             <summary>
             Defines the source generated JSON serialization contract metadata for a given type.
             </summary>
@@ -1639,6 +1680,11 @@
             </summary>
         </member>
         <member name="P:HyperLiquid.Net.Converters.HyperLiquidSourceGenerationContext.HyperLiquidWithdrawalArray">
+            <summary>
+            Defines the source generated JSON serialization contract metadata for a given type.
+            </summary>
+        </member>
+        <member name="P:HyperLiquid.Net.Converters.HyperLiquidSourceGenerationContext.TypedDataRaw">
             <summary>
             Defines the source generated JSON serialization contract metadata for a given type.
             </summary>
@@ -3367,6 +3413,14 @@
             Get extra agents associated with a user
             </summary>
             <param name="address">Address to request agents for. If not provided will use the address provided in the API credentials</param>
+            <param name="ct">Cancellation token</param>
+        </member>
+        <member name="M:HyperLiquid.Net.Interfaces.Clients.SpotApi.IHyperLiquidRestClientSpotApiAccount.GetReferralInfoAsync(System.String,System.Threading.CancellationToken)">
+            <summary>
+            Get user referral information
+            <para><a href="https://hyperliquid.gitbook.io/hyperliquid-docs/for-developers/api/info-endpoint" /></para>
+            </summary>
+            <param name="address">Address to request referral information for. If not provided will use the address provided in the API credentials</param>
             <param name="ct">Cancellation token</param>
         </member>
         <member name="T:HyperLiquid.Net.Interfaces.Clients.SpotApi.IHyperLiquidRestClientSpotApiExchangeData">
@@ -5167,6 +5221,166 @@
         <member name="P:HyperLiquid.Net.Objects.Models.HyperLiquidRateLimit.RequestsCap">
             <summary>
             Request quota
+            </summary>
+        </member>
+        <member name="T:HyperLiquid.Net.Objects.Models.HyperliquidReferralInfo">
+            <summary>
+            Referral information
+            </summary>
+        </member>
+        <member name="P:HyperLiquid.Net.Objects.Models.HyperliquidReferralInfo.ReferredBy">
+            <summary>
+            Referred by information
+            </summary>
+        </member>
+        <member name="P:HyperLiquid.Net.Objects.Models.HyperliquidReferralInfo.CumulativeVolume">
+            <summary>
+            Cumulative volume (USDC only)
+            </summary>
+        </member>
+        <member name="P:HyperLiquid.Net.Objects.Models.HyperliquidReferralInfo.UnclaimedRewards">
+            <summary>
+            Unclaimed rewards (USDC only)
+            </summary>
+        </member>
+        <member name="P:HyperLiquid.Net.Objects.Models.HyperliquidReferralInfo.ClaimedRewards">
+            <summary>
+            Claimed rewards (USDC only)
+            </summary>
+        </member>
+        <member name="P:HyperLiquid.Net.Objects.Models.HyperliquidReferralInfo.BuilderRewards">
+            <summary>
+            Builder rewards (USDC only)
+            </summary>
+        </member>
+        <member name="P:HyperLiquid.Net.Objects.Models.HyperliquidReferralInfo.TokenToState">
+            <summary>
+            Token to state mapping
+            </summary>
+        </member>
+        <member name="P:HyperLiquid.Net.Objects.Models.HyperliquidReferralInfo.ReferrerState">
+            <summary>
+            Referrer state information
+            </summary>
+        </member>
+        <member name="P:HyperLiquid.Net.Objects.Models.HyperliquidReferralInfo.RewardHistory">
+            <summary>
+            Reward history
+            </summary>
+        </member>
+        <member name="T:HyperLiquid.Net.Objects.Models.HyperliquidReferredBy">
+            <summary>
+            Referred by information
+            </summary>
+        </member>
+        <member name="P:HyperLiquid.Net.Objects.Models.HyperliquidReferredBy.Referrer">
+            <summary>
+            Referrer address
+            </summary>
+        </member>
+        <member name="P:HyperLiquid.Net.Objects.Models.HyperliquidReferredBy.Code">
+            <summary>
+            Referral code
+            </summary>
+        </member>
+        <member name="T:HyperLiquid.Net.Objects.Models.HyperliquidTokenState">
+            <summary>
+            Token state mapping (token ID and state data)
+            </summary>
+        </member>
+        <member name="P:HyperLiquid.Net.Objects.Models.HyperliquidTokenState.TokenId">
+            <summary>
+            Token ID
+            </summary>
+        </member>
+        <member name="P:HyperLiquid.Net.Objects.Models.HyperliquidTokenState.StateData">
+            <summary>
+            State data
+            </summary>
+        </member>
+        <member name="T:HyperLiquid.Net.Objects.Models.HyperliquidTokenStateData">
+            <summary>
+            Token state data
+            </summary>
+        </member>
+        <member name="P:HyperLiquid.Net.Objects.Models.HyperliquidTokenStateData.CumulativeVolume">
+            <summary>
+            Cumulative volume
+            </summary>
+        </member>
+        <member name="P:HyperLiquid.Net.Objects.Models.HyperliquidTokenStateData.UnclaimedRewards">
+            <summary>
+            Unclaimed rewards
+            </summary>
+        </member>
+        <member name="P:HyperLiquid.Net.Objects.Models.HyperliquidTokenStateData.ClaimedRewards">
+            <summary>
+            Claimed rewards
+            </summary>
+        </member>
+        <member name="P:HyperLiquid.Net.Objects.Models.HyperliquidTokenStateData.BuilderRewards">
+            <summary>
+            Builder rewards
+            </summary>
+        </member>
+        <member name="T:HyperLiquid.Net.Objects.Models.HyperliquidReferrerState">
+            <summary>
+            Referrer state information
+            </summary>
+        </member>
+        <member name="P:HyperLiquid.Net.Objects.Models.HyperliquidReferrerState.Stage">
+            <summary>
+            Stage
+            </summary>
+        </member>
+        <member name="P:HyperLiquid.Net.Objects.Models.HyperliquidReferrerState.Data">
+            <summary>
+            Data
+            </summary>
+        </member>
+        <member name="T:HyperLiquid.Net.Objects.Models.HyperliquidReferrerStateData">
+            <summary>
+            Referrer state data
+            </summary>
+        </member>
+        <member name="P:HyperLiquid.Net.Objects.Models.HyperliquidReferrerStateData.Code">
+            <summary>
+            Referral code
+            </summary>
+        </member>
+        <member name="P:HyperLiquid.Net.Objects.Models.HyperliquidReferrerStateData.ReferralStates">
+            <summary>
+            Referral states
+            </summary>
+        </member>
+        <member name="T:HyperLiquid.Net.Objects.Models.HyperliquidReferralState">
+            <summary>
+            Individual referral state
+            </summary>
+        </member>
+        <member name="P:HyperLiquid.Net.Objects.Models.HyperliquidReferralState.CumulativeVolume">
+            <summary>
+            Cumulative volume
+            </summary>
+        </member>
+        <member name="P:HyperLiquid.Net.Objects.Models.HyperliquidReferralState.CumulativeRewardedFeesSinceReferred">
+            <summary>
+            Cumulative rewarded fees since referred
+            </summary>
+        </member>
+        <member name="P:HyperLiquid.Net.Objects.Models.HyperliquidReferralState.CumulativeFeesRewardedToReferrer">
+            <summary>
+            Cumulative fees rewarded to referrer
+            </summary>
+        </member>
+        <member name="P:HyperLiquid.Net.Objects.Models.HyperliquidReferralState.TimeJoined">
+            <summary>
+            Time joined (milliseconds timestamp)
+            </summary>
+        </member>
+        <member name="P:HyperLiquid.Net.Objects.Models.HyperliquidReferralState.User">
+            <summary>
+            User address
             </summary>
         </member>
         <member name="T:HyperLiquid.Net.Objects.Models.HyperLiquidSpotExchangeInfo">

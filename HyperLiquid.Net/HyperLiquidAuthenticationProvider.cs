@@ -1,4 +1,4 @@
-﻿using CryptoExchange.Net.Authentication;
+using CryptoExchange.Net.Authentication;
 using CryptoExchange.Net.Clients;
 using CryptoExchange.Net.Objects;
 using HyperLiquid.Net.Clients.BaseApi;
@@ -9,6 +9,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Numerics;
 using System.Security.Cryptography;
+using System.Text.Json;
 
 namespace HyperLiquid.Net
 {
@@ -70,6 +71,14 @@ namespace HyperLiquid.Net
             var action = (Dictionary<string, object>)request.BodyParameters!["action"];
             var nonce = action.TryGetValue("time", out var time) ? (long)time : action.TryGetValue("nonce", out var n) ? (long)n : GetMillisecondTimestampLong(apiClient);
             request.BodyParameters!.Add("nonce", nonce);
+
+            if(request.BodyParameters.TryGetValue("signature", out var externalSignature))
+            {
+                // Signature already present, deconstruct into RSV.
+                request.BodyParameters["signature"] = DeconstructExternalSignature((string)externalSignature);    
+                return;
+            }
+
             if (action.TryGetValue("signatureChainId", out var chainId))
             {
                 // User action
@@ -86,7 +95,7 @@ namespace HyperLiquid.Net
                     { "verifyingContract", "0x0000000000000000000000000000000000000000" }
                 };
 
-                var msg = EncodeEip721(userActions, types, action);
+                var msg = EncodeEip712(userActions, types, action);
                 var keccakSigned = BytesToHexString(SignKeccak(msg));
 
                 Dictionary<string, object> signature;
@@ -118,7 +127,7 @@ namespace HyperLiquid.Net
                     { "connectionId", hash },
                 };
 
-                var msg = EncodeEip721(_domain, _messageTypes, phantomAgent);
+                var msg = EncodeEip712(_domain, _messageTypes, phantomAgent);
                 var keccakSigned = BytesToHexString(SignKeccak(msg));
 
                 Dictionary<string, object> signature;
@@ -131,8 +140,7 @@ namespace HyperLiquid.Net
             }
         }
 
-
-        private Dictionary<string, object> GetSignatureTypes(string name, Dictionary<string, object> parameters)
+        public static Dictionary<string, object> GetSignatureTypes(string name, Dictionary<string, object> parameters)
         {
             var props = new List<object>();
             var result = new Dictionary<string, object>()
@@ -145,7 +153,7 @@ namespace HyperLiquid.Net
                 props.Add(new Dictionary<string, object>
                 {
                     { "name", item.Key },
-                    { "type", (item.Key == "builder" || item.Key == "user") ? "address" : _typeMapping[item.Value.GetType()] }
+                    { "type", (item.Key == "builder" || item.Key == "user" || item.Key == "agentAddress") ? "address" : _typeMapping[item.Value.GetType()] }
                 });
             }
 
@@ -191,6 +199,22 @@ namespace HyperLiquid.Net
                     { "v", 27 + v}
                 };
             }
+        }
+
+        private Dictionary<string, object> DeconstructExternalSignature(string signature)
+        {
+            // Broom Reference:
+            // R = rsvTriple[0..32].ToHex(true);
+            // S = rsvTriple[32..^1].ToHex(true);
+            // V = rsvTriple[^1];
+
+            var rsvTriple = signature.HexToByteArray();
+            return new Dictionary<string, object>()
+            {
+                { "r", "0x" + BytesToHexString(new ArraySegment<byte>(rsvTriple, 0, 32)).ToLowerInvariant() },
+                { "s", "0x" + BytesToHexString(new ArraySegment<byte>(rsvTriple, 32, rsvTriple.Length - 33)).ToLowerInvariant() },
+                { "v", (int)rsvTriple[rsvTriple.Length - 1] }
+            };
         }
 
         private static byte[] FixSize(byte[] input, int expectedSize)
@@ -314,7 +338,7 @@ namespace HyperLiquid.Net
             return recId;
         }
 
-        public byte[] EncodeEip721(
+        private static TypedDataRaw EncodeTypedData(
             IEnumerable<KeyValuePair<string, object>> domain,
             IEnumerable<KeyValuePair<string, object>> messageTypes,
             IEnumerable<KeyValuePair<string, object>> messageData)
@@ -395,9 +419,26 @@ namespace HyperLiquid.Net
             typeRaw.Message = messageValues.ToArray();
             typeRaw.Types = types;
             typeRaw.PrimaryType = typeName;
+            return typeRaw;
+        }
+
+        public static byte[] EncodeEip712(
+            IEnumerable<KeyValuePair<string, object>> domain,
+            IEnumerable<KeyValuePair<string, object>> messageTypes,
+            IEnumerable<KeyValuePair<string, object>> messageData)
+        {
+            var typeRaw = EncodeTypedData(domain, messageTypes, messageData);
             return LightEip712TypedDataEncoder.EncodeTypedDataRaw(typeRaw);
         }
 
+        public static string EncodeEip712Json(
+            IEnumerable<KeyValuePair<string, object>> domain,
+            IEnumerable<KeyValuePair<string, object>> messageTypes,
+            IEnumerable<KeyValuePair<string, object>> messageData)
+        {
+            var typeRaw = EncodeTypedData(domain, messageTypes, messageData);
+            return JsonSerializer.Serialize(typeRaw, HyperLiquidExchange._serializerContext);
+        }
 
         private byte[] GenerateActionHash(object action, long nonce, string? vaultAddress, long? expireAfter)
         {
