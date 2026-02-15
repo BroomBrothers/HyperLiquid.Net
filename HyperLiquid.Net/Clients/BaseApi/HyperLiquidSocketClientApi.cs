@@ -208,9 +208,9 @@ namespace HyperLiquid.Net.Clients.BaseApi
 
             var internalHandler = new Action<DateTime, string?, int, HyperLiquidSocketUpdate<HyperLiquidTrade[]>>((receiveTime, originalData, invocation, data) =>
             {
-                var timestamp = data.Data.Max(x => x.Timestamp);
-                if (invocation != 1)
-                    UpdateTimeOffset(timestamp);
+                DateTime? timestamp = data.Data.Length != 0 ? data.Data.Max(x => x.Timestamp) : null;
+                if (invocation != 1 && timestamp != null)
+                    UpdateTimeOffset(timestamp.Value);
 
                 foreach (var trade in data.Data)
                     trade.Symbol = symbol;
@@ -283,9 +283,9 @@ namespace HyperLiquid.Net.Clients.BaseApi
 
             var internalHandler = new Action<DateTime, string?, int, HyperLiquidSocketUpdate<HyperLiquidOrderStatus[]>>((receiveTime, originalData, invocation, data) =>
             {
-                var timestamp = data.Data.Max(x => x.Timestamp);
-                if (invocation != 1)
-                    UpdateTimeOffset(timestamp);
+                DateTime? timestamp = data.Data.Length != 0 ? data.Data.Max(x => x.Timestamp) : null;
+                if (invocation != 1 && timestamp != null)
+                    UpdateTimeOffset(timestamp.Value);
 
                 foreach (var order in data.Data)
                 {
@@ -336,9 +336,11 @@ namespace HyperLiquid.Net.Clients.BaseApi
 
             var internalHandler = new Action<DateTime, string?, int, HyperLiquidSocketUpdate<HyperLiquidOrderHistoryUpdate>>((receiveTime, originalData, invocation, data) =>
             {
-                var timestamp = data.Data.Orders.Max(x => x.Order.Timestamp);
-                if (invocation != 1)
-                    UpdateTimeOffset(timestamp);
+                DateTime? timestamp = data.Data.Orders.Length != 0 ? data.Data.Orders.Max(x => x.Timestamp) : null;
+                if (invocation != 1 && timestamp != null)
+                {
+                    UpdateTimeOffset(timestamp.Value);
+                }
 
                 foreach (var order in data.Data.Orders)
                 {
@@ -575,7 +577,7 @@ namespace HyperLiquid.Net.Clients.BaseApi
                     }
                 }
 
-                DateTime? timestamp = data.Data.Trades.Any() ? data.Data.Trades.Max(x => x.Fill.Timestamp) : null;
+                DateTime? timestamp = data.Data.Trades.Length != 0 ? data.Data.Trades.Max(x => x.Fill.Timestamp) : null;
                 if (timestamp != null)
                     UpdateTimeOffset(timestamp.Value);
 
@@ -614,7 +616,7 @@ namespace HyperLiquid.Net.Clients.BaseApi
             {
                 DateTime? timestamp = data.Data.History.Length != 0 ? data.Data.History.Max(x => x.Timestamp) : null;
                 if (!data.Data.IsSnapshot && timestamp != null)
-                    UpdateTimeOffset(timestamp!.Value);
+                    UpdateTimeOffset(timestamp.Value);
 
                 foreach (var order in data.Data.History)
                 {
