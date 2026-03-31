@@ -919,6 +919,16 @@
             Defines the source generated JSON serialization contract metadata for a given type.
             </summary>
         </member>
+        <member name="P:HyperLiquid.Net.Converters.HyperLiquidSourceGenerationContext.HyperLiquidExternalTransfer">
+            <summary>
+            Defines the source generated JSON serialization contract metadata for a given type.
+            </summary>
+        </member>
+        <member name="P:HyperLiquid.Net.Converters.HyperLiquidSourceGenerationContext.HyperLiquidExternalTransferArray">
+            <summary>
+            Defines the source generated JSON serialization contract metadata for a given type.
+            </summary>
+        </member>
         <member name="P:HyperLiquid.Net.Converters.HyperLiquidSourceGenerationContext.HyperLiquidFeeInfo">
             <summary>
             Defines the source generated JSON serialization contract metadata for a given type.
@@ -1585,6 +1595,16 @@
             </summary>
         </member>
         <member name="P:HyperLiquid.Net.Converters.HyperLiquidSourceGenerationContext.HyperLiquidUserLedgerHyperLiquidDeposit">
+            <summary>
+            Defines the source generated JSON serialization contract metadata for a given type.
+            </summary>
+        </member>
+        <member name="P:HyperLiquid.Net.Converters.HyperLiquidSourceGenerationContext.HyperLiquidUserLedgerHyperLiquidExternalTransferArray">
+            <summary>
+            Defines the source generated JSON serialization contract metadata for a given type.
+            </summary>
+        </member>
+        <member name="P:HyperLiquid.Net.Converters.HyperLiquidSourceGenerationContext.HyperLiquidUserLedgerHyperLiquidExternalTransfer">
             <summary>
             Defines the source generated JSON serialization contract metadata for a given type.
             </summary>
@@ -3571,6 +3591,11 @@
             Spot transfers
             </summary>
         </member>
+        <member name="P:HyperLiquid.Net.Objects.Models.HyperLiquidAccountLedger.ExternalTransfers">
+            <summary>
+            External transfers (send type)
+            </summary>
+        </member>
         <member name="T:HyperLiquid.Net.Objects.Models.HyperLiquidDeposit">
             <summary>
             Deposit info
@@ -3684,6 +3709,66 @@
         <member name="P:HyperLiquid.Net.Objects.Models.HyperLiquidSpotTransfer.Fee">
             <summary>
             Fee
+            </summary>
+        </member>
+        <member name="T:HyperLiquid.Net.Objects.Models.HyperLiquidExternalTransfer">
+            <summary>
+            External transfer info (send type)
+            </summary>
+        </member>
+        <member name="P:HyperLiquid.Net.Objects.Models.HyperLiquidExternalTransfer.Token">
+            <summary>
+            Token
+            </summary>
+        </member>
+        <member name="P:HyperLiquid.Net.Objects.Models.HyperLiquidExternalTransfer.Quantity">
+            <summary>
+            Quantity
+            </summary>
+        </member>
+        <member name="P:HyperLiquid.Net.Objects.Models.HyperLiquidExternalTransfer.UsdcValue">
+            <summary>
+            USDC value
+            </summary>
+        </member>
+        <member name="P:HyperLiquid.Net.Objects.Models.HyperLiquidExternalTransfer.User">
+            <summary>
+            User
+            </summary>
+        </member>
+        <member name="P:HyperLiquid.Net.Objects.Models.HyperLiquidExternalTransfer.Destination">
+            <summary>
+            Destination
+            </summary>
+        </member>
+        <member name="P:HyperLiquid.Net.Objects.Models.HyperLiquidExternalTransfer.SourceDex">
+            <summary>
+            Source dex
+            </summary>
+        </member>
+        <member name="P:HyperLiquid.Net.Objects.Models.HyperLiquidExternalTransfer.DestinationDex">
+            <summary>
+            Destination dex
+            </summary>
+        </member>
+        <member name="P:HyperLiquid.Net.Objects.Models.HyperLiquidExternalTransfer.Fee">
+            <summary>
+            Fee
+            </summary>
+        </member>
+        <member name="P:HyperLiquid.Net.Objects.Models.HyperLiquidExternalTransfer.NativeTokenFee">
+            <summary>
+            Native token fee
+            </summary>
+        </member>
+        <member name="P:HyperLiquid.Net.Objects.Models.HyperLiquidExternalTransfer.Nonce">
+            <summary>
+            Nonce
+            </summary>
+        </member>
+        <member name="P:HyperLiquid.Net.Objects.Models.HyperLiquidExternalTransfer.FeeToken">
+            <summary>
+            Fee token
             </summary>
         </member>
         <member name="T:HyperLiquid.Net.Objects.Models.HyperLiquidAssetInfo">
