@@ -1910,6 +1910,16 @@
             Auto deleveraging
             </summary>
         </member>
+        <member name="F:HyperLiquid.Net.Enums.Direction.LiquidatedIsolatedLong">
+            <summary>
+            Liquidated isolated long
+            </summary>
+        </member>
+        <member name="F:HyperLiquid.Net.Enums.Direction.LiquidatedIsolatedShort">
+            <summary>
+            Liquidated isolated long
+            </summary>
+        </member>
         <member name="T:HyperLiquid.Net.Enums.KlineInterval">
             <summary>
             Interval

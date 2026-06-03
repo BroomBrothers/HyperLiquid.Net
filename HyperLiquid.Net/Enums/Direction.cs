@@ -59,6 +59,16 @@ namespace HyperLiquid.Net.Enums
         /// Auto deleveraging
         /// </summary>
         [Map("Auto-Deleveraging")]
-        AutoDeleveraging
+        AutoDeleveraging,
+        /// <summary>
+        /// Liquidated isolated long
+        /// </summary>
+        [Map("Liquidated Isolated Long")]
+        LiquidatedIsolatedLong,
+        /// <summary>
+        /// Liquidated isolated long
+        /// </summary>
+        [Map("Liquidated Isolated Short")]
+        LiquidatedIsolatedShort
     }
 }
