@@ -31,8 +31,8 @@ namespace HyperLiquid.Net.Objects.Models
                 if (_symbols == null)
                 {
                     _symbols = SymbolsInt.Select(x => {
-                        var baseAsset = Assets.ElementAt(x.BaseAssetIndex);
-                        var quoteAsset = Assets.ElementAt(x.QuoteAssetIndex);
+                        var baseAsset = Assets.Single(a => a.Index == x.BaseAssetIndex);
+                        var quoteAsset = Assets.Single(a => a.Index == x.QuoteAssetIndex);
                         return new HyperLiquidSymbol
                         {
                             Index = x.Index,
