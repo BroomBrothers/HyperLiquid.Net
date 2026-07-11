@@ -134,6 +134,9 @@
         <member name="M:HyperLiquid.Net.Clients.BaseApi.HyperLiquidSocketClientApi.SubscribeToUserUpdatesAsync(System.String,System.Action{CryptoExchange.Net.Objects.Sockets.DataEvent{HyperLiquid.Net.Objects.Models.HyperLiquidUserUpdate}},System.Threading.CancellationToken)">
             <inheritdoc />
         </member>
+        <member name="M:HyperLiquid.Net.Clients.BaseApi.HyperLiquidSocketClientApi.SubscribeToClearinghouseStateUpdatesAsync(System.String,System.String,System.Action{CryptoExchange.Net.Objects.Sockets.DataEvent{HyperLiquid.Net.Objects.Models.HyperLiquidClearinghouseStateUpdate}},System.Threading.CancellationToken)">
+            <inheritdoc />
+        </member>
         <member name="M:HyperLiquid.Net.Clients.BaseApi.HyperLiquidSocketClientApi.SubscribeToUserTradeUpdatesAsync(System.String,System.Action{CryptoExchange.Net.Objects.Sockets.DataEvent{HyperLiquid.Net.Objects.Models.HyperLiquidUserTrade[]}},System.Threading.CancellationToken)">
             <inheritdoc />
         </member>
@@ -644,6 +647,11 @@
             Defines the source generated JSON serialization contract metadata for a given type.
             </summary>
         </member>
+        <member name="P:HyperLiquid.Net.Converters.HyperLiquidSourceGenerationContext.HyperLiquidSocketUpdateHyperLiquidClearinghouseStateUpdate">
+            <summary>
+            Defines the source generated JSON serialization contract metadata for a given type.
+            </summary>
+        </member>
         <member name="P:HyperLiquid.Net.Converters.HyperLiquidSourceGenerationContext.HyperLiquidSocketUpdateHyperLiquidFuturesUserSymbolUpdate">
             <summary>
             Defines the source generated JSON serialization contract metadata for a given type.
@@ -875,6 +883,11 @@
             </summary>
         </member>
         <member name="P:HyperLiquid.Net.Converters.HyperLiquidSourceGenerationContext.HyperLiquidCancelResultArray">
+            <summary>
+            Defines the source generated JSON serialization contract metadata for a given type.
+            </summary>
+        </member>
+        <member name="P:HyperLiquid.Net.Converters.HyperLiquidSourceGenerationContext.HyperLiquidClearinghouseStateUpdate">
             <summary>
             Defines the source generated JSON serialization contract metadata for a given type.
             </summary>
@@ -2920,6 +2933,17 @@
             <param name="ct">Cancellation token for closing this subscription</param>
             <returns>A stream subscription. This stream subscription can be used to be notified when the socket is disconnected/reconnected and to unsubscribe</returns>
         </member>
+        <member name="M:HyperLiquid.Net.Interfaces.Clients.BaseApi.IHyperLiquidSocketClientApi.SubscribeToClearinghouseStateUpdatesAsync(System.String,System.String,System.Action{CryptoExchange.Net.Objects.Sockets.DataEvent{HyperLiquid.Net.Objects.Models.HyperLiquidClearinghouseStateUpdate}},System.Threading.CancellationToken)">
+            <summary>
+            Subscribe to futures clearinghouse state updates
+            <para><a href="https://hyperliquid.gitbook.io/hyperliquid-docs/for-developers/api/websocket/subscriptions" /></para>
+            </summary>
+            <param name="address">Address to subscribe for. If not provided will use the address provided in the API credentials</param>
+            <param name="dex">Perpetual DEX name. Use an empty value for the default DEX</param>
+            <param name="onMessage">The data handler</param>
+            <param name="ct">Cancellation token for closing this subscription</param>
+            <returns>A stream subscription. This stream subscription can be used to be notified when the socket is disconnected/reconnected and to unsubscribe</returns>
+        </member>
         <member name="M:HyperLiquid.Net.Interfaces.Clients.BaseApi.IHyperLiquidSocketClientApi.SubscribeToTwapTradeUpdatesAsync(System.String,System.Action{CryptoExchange.Net.Objects.Sockets.DataEvent{HyperLiquid.Net.Objects.Models.HyperLiquidUserTrade[]}},System.Threading.CancellationToken)">
             <summary>
             Subscribe to Time Weighted Average Price trade updates, will provided updates for both Spot and Futures orders
@@ -4019,6 +4043,26 @@
         <member name="T:HyperLiquid.Net.Objects.Models.HyperLiquidCancelResult">
             <summary>
             Cancel result
+            </summary>
+        </member>
+        <member name="T:HyperLiquid.Net.Objects.Models.HyperLiquidClearinghouseStateUpdate">
+            <summary>
+            Futures clearinghouse state update
+            </summary>
+        </member>
+        <member name="P:HyperLiquid.Net.Objects.Models.HyperLiquidClearinghouseStateUpdate.User">
+            <summary>
+            User address
+            </summary>
+        </member>
+        <member name="P:HyperLiquid.Net.Objects.Models.HyperLiquidClearinghouseStateUpdate.Dex">
+            <summary>
+            Perpetual DEX name
+            </summary>
+        </member>
+        <member name="P:HyperLiquid.Net.Objects.Models.HyperLiquidClearinghouseStateUpdate.ClearinghouseState">
+            <summary>
+            Futures account state
             </summary>
         </member>
         <member name="T:HyperLiquid.Net.Objects.Models.HyperLiquidEditOrderRequest">

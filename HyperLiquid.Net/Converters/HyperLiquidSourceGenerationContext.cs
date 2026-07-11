@@ -47,6 +47,7 @@ namespace HyperLiquid.Net.Converters
     [JsonSerializable(typeof(HyperLiquidSocketUpdate<HyperLiquidKline>))]
     [JsonSerializable(typeof(HyperLiquidSocketUpdate<HyperLiquidOrderBook>))]
     [JsonSerializable(typeof(HyperLiquidSocketUpdate<HyperLiquidLedgerUpdate>))]
+    [JsonSerializable(typeof(HyperLiquidSocketUpdate<HyperLiquidClearinghouseStateUpdate>))]
     [JsonSerializable(typeof(HyperLiquidSocketUpdate<HyperLiquidUserUpdate>))]
     [JsonSerializable(typeof(HyperLiquidSocketUpdate<HyperLiquidUserTradeUpdate>))]
     [JsonSerializable(typeof(HyperLiquidSocketUpdate<HyperLiquidTwapTradeUpdate>))]

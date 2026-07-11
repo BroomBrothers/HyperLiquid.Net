@@ -53,6 +53,7 @@ namespace HyperLiquid.Net.UnitTests
             await tester.ValidateAsync<HyperLiquidOrderBook>((client, handler) => client.SpotApi.SubscribeToOrderBookUpdatesAsync("HYPE", handler), "OrderBook");
             await tester.ValidateAsync<HyperLiquidOrderStatus[]>((client, handler) => client.SpotApi.SubscribeToOrderUpdatesAsync(null, handler), "Order");
             await tester.ValidateAsync<HyperLiquidUserTrade[]>((client, handler) => client.SpotApi.SubscribeToUserEventUpdatesAsync(null, handler), "UserEventTrade", nestedJsonProperty: "data.fills");
+            await tester.ValidateAsync<HyperLiquidClearinghouseStateUpdate>((client, handler) => client.FuturesApi.SubscribeToClearinghouseStateUpdatesAsync(null, null, handler), "ClearinghouseState");
         }
     }
 }

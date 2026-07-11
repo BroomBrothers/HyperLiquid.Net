@@ -139,6 +139,17 @@ namespace HyperLiquid.Net.Interfaces.Clients.BaseApi
         Task<CallResult<UpdateSubscription>> SubscribeToUserUpdatesAsync(string? address, Action<DataEvent<HyperLiquidUserUpdate>> onMessage, CancellationToken ct = default);
 
         /// <summary>
+        /// Subscribe to futures clearinghouse state updates
+        /// <para><a href="https://hyperliquid.gitbook.io/hyperliquid-docs/for-developers/api/websocket/subscriptions" /></para>
+        /// </summary>
+        /// <param name="address">Address to subscribe for. If not provided will use the address provided in the API credentials</param>
+        /// <param name="dex">Perpetual DEX name. Use an empty value for the default DEX</param>
+        /// <param name="onMessage">The data handler</param>
+        /// <param name="ct">Cancellation token for closing this subscription</param>
+        /// <returns>A stream subscription. This stream subscription can be used to be notified when the socket is disconnected/reconnected and to unsubscribe</returns>
+        Task<CallResult<UpdateSubscription>> SubscribeToClearinghouseStateUpdatesAsync(string? address, string? dex, Action<DataEvent<HyperLiquidClearinghouseStateUpdate>> onMessage, CancellationToken ct = default);
+
+        /// <summary>
         /// Subscribe to Time Weighted Average Price trade updates, will provided updates for both Spot and Futures orders
         /// <para><a href="https://hyperliquid.gitbook.io/hyperliquid-docs/for-developers/api/websocket/subscriptions" /></para>
         /// </summary>
