@@ -545,7 +545,7 @@ namespace HyperLiquid.Net.Clients.BaseApi
             {
                 onMessage(
                     new DataEvent<HyperLiquidAccountLedger>(HyperLiquidExchange.ExchangeName, data.Data.Ledger, receiveTime, originalData)
-                        .WithUpdateType(SocketUpdateType.Update)
+                        .WithUpdateType(data.Data.IsSnapshot ? SocketUpdateType.Snapshot : SocketUpdateType.Update)
                         .WithStreamId(data.Channel)
                     );
             });

@@ -1070,7 +1070,7 @@ namespace HyperLiquid.Net.Clients.BaseApi
 
                 onMessage(
                     new DataEvent<HyperLiquidOrderStatus[]>(HyperLiquidExchange.ExchangeName, data.Data.Orders, receiveTime, originalData)
-                        .WithUpdateType(SocketUpdateType.Update)
+                        .WithUpdateType(data.Data.IsSnapshot ? SocketUpdateType.Snapshot : SocketUpdateType.Update)
                         .WithStreamId(data.Channel)
                         .WithDataTimestamp(timestamp, _baseClient.GetTimeOffset())
                     );
