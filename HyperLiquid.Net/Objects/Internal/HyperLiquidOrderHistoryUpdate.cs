@@ -7,6 +7,8 @@ namespace HyperLiquid.Net.Objects.Internal;
 [SerializationModel]
 internal record HyperLiquidOrderHistoryUpdate
 {
+    [JsonPropertyName("isSnapshot")]
+    public bool IsSnapshot { get; set; }
     [JsonPropertyName("orderHistory")]
     public HyperLiquidOrderStatus[] Orders { get; set; } = [];
     [JsonPropertyName("user")]
