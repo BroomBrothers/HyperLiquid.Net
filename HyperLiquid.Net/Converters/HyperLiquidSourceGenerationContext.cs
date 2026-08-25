@@ -1,5 +1,6 @@
 using CryptoExchange.Net.Objects;
 using HyperLiquid.Net.Objects.Internal;
+using HyperLiquid.Net.Enums;
 using HyperLiquid.Net.Objects.Models;
 using System;
 using System.Collections.Generic;
@@ -27,6 +28,7 @@ namespace HyperLiquid.Net.Converters
     [JsonSerializable(typeof(HyperLiquidPerpDexStatus))]
     [JsonSerializable(typeof(HyperliquidReferralInfo))]
     [JsonSerializable(typeof(TypedDataRaw))]
+    [JsonSerializable(typeof(UserAbstractionState))]
 
     // End manual defined attributes
 
@@ -48,6 +50,7 @@ namespace HyperLiquid.Net.Converters
     [JsonSerializable(typeof(HyperLiquidSocketUpdate<HyperLiquidOrderBook>))]
     [JsonSerializable(typeof(HyperLiquidSocketUpdate<HyperLiquidLedgerUpdate>))]
     [JsonSerializable(typeof(HyperLiquidSocketUpdate<HyperLiquidClearinghouseStateUpdate>))]
+    [JsonSerializable(typeof(HyperLiquidSocketUpdate<HyperLiquidBalanceUpdate>))]
     [JsonSerializable(typeof(HyperLiquidSocketUpdate<HyperLiquidUserUpdate>))]
     [JsonSerializable(typeof(HyperLiquidSocketUpdate<HyperLiquidUserTradeUpdate>))]
     [JsonSerializable(typeof(HyperLiquidSocketUpdate<HyperLiquidTwapTradeUpdate>))]

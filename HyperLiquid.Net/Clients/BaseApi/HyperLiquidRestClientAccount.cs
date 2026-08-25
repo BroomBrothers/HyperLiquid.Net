@@ -1,5 +1,6 @@
 ﻿using CryptoExchange.Net.Objects;
 using HyperLiquid.Net.Interfaces.Clients.BaseApi;
+using HyperLiquid.Net.Enums;
 using HyperLiquid.Net.Objects.Models;
 using System;
 using System.Globalization;
@@ -74,6 +75,25 @@ namespace HyperLiquid.Net.Clients.BaseApi
             var request = _definitions.GetOrCreate(HttpMethod.Post, "exchange", HyperLiquidExchange.RateLimiter.HyperLiquidRest, 1, true);
             var result = await _baseClient.SendAuthAsync<HyperLiquidDefault>(request, parameters, ct).ConfigureAwait(false);
             return result.AsDataless();
+        }
+
+        #endregion
+
+        #region Get User Abstraction State
+
+        /// <inheritdoc />
+        public async Task<WebCallResult<UserAbstractionState>> GetUserAbstractionStateAsync(string? address = null, CancellationToken ct = default)
+        {
+            if (address == null && _baseClient.AuthenticationProvider == null)
+                throw new ArgumentNullException(nameof(address), "Address needs to be provided if API credentials not set");
+
+            var parameters = new ParameterCollection()
+            {
+                { "type", "userAbstraction" },
+                { "user", address ?? _baseClient.AuthenticationProvider!.ApiKey }
+            };
+            var request = _definitions.GetOrCreate(HttpMethod.Post, "info", HyperLiquidExchange.RateLimiter.HyperLiquidRest, 20, false);
+            return await _baseClient.SendAsync<UserAbstractionState>(request, parameters, ct).ConfigureAwait(false);
         }
 
         #endregion

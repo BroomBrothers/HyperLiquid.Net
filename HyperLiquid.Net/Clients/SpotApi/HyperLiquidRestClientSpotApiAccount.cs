@@ -28,7 +28,7 @@ namespace HyperLiquid.Net.Clients.SpotApi
         #region Get Spot Balances
 
         /// <inheritdoc />
-        public async Task<WebCallResult<HyperLiquidBalance[]>> GetBalancesAsync(string? address = null, CancellationToken ct = default)
+        public async Task<WebCallResult<HyperLiquidBalances>> GetBalancesAsync(string? address = null, CancellationToken ct = default)
         {
             if (address == null && _baseClient.AuthenticationProvider == null)
                 throw new ArgumentNullException(nameof(address), "Address needs to be provided if API credentials not set");
@@ -39,8 +39,7 @@ namespace HyperLiquid.Net.Clients.SpotApi
                 { "user", address ?? _baseClient.AuthenticationProvider!.ApiKey }
             };
             var request = _definitions.GetOrCreate(HttpMethod.Post, "info", HyperLiquidExchange.RateLimiter.HyperLiquidRest, 2, false);
-            var result = await _baseClient.SendAsync<HyperLiquidBalances>(request, parameters, ct).ConfigureAwait(false);
-            return result.As<HyperLiquidBalance[]>(result.Data?.Balances);
+            return await _baseClient.SendAsync<HyperLiquidBalances>(request, parameters, ct).ConfigureAwait(false);
         }
 
         #endregion

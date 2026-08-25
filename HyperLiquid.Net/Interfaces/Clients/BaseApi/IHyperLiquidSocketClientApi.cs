@@ -169,5 +169,19 @@ namespace HyperLiquid.Net.Interfaces.Clients.BaseApi
         /// <returns>A stream subscription. This stream subscription can be used to be notified when the socket is disconnected/reconnected and to unsubscribe</returns>
         Task<CallResult<UpdateSubscription>> SubscribeToTwapOrderUpdatesAsync(string? address, Action<DataEvent<HyperLiquidTwapHistoryStatus[]>> onMessage, CancellationToken ct = default);
 
+
+        /// <summary>
+        /// Subscribe to spot balance updates. Under unified account or portfolio margin this is the source of truth
+        /// for the trading account balance across both spot and perps: the balance total includes the collateral
+        /// backing perp positions and moves with unrealized pnl, and the hold reflects the margin in use. Note this
+        /// differs from the spotState carried on the webData2 user stream, which reports the pre-unified spot-only
+        /// balance
+        /// <para><a href="https://hyperliquid.gitbook.io/hyperliquid-docs/for-developers/api/websocket/subscriptions" /></para>
+        /// </summary>
+        /// <param name="address">Address to subscribe for. If not provided will use the address provided in the API credentials</param>
+        /// <param name="onMessage">The data handler</param>
+        /// <param name="ct">Cancellation token for closing this subscription</param>
+        /// <returns>A stream subscription. This stream subscription can be used to be notified when the socket is disconnected/reconnected and to unsubscribe</returns>
+        Task<CallResult<UpdateSubscription>> SubscribeToBalanceUpdatesAsync(string? address, Action<DataEvent<HyperLiquidBalanceUpdate>> onMessage, CancellationToken ct = default);
     }
 }

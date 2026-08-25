@@ -1,6 +1,7 @@
 using System.Threading.Tasks;
 using System.Threading;
 using CryptoExchange.Net.Objects;
+using HyperLiquid.Net.Enums;
 using HyperLiquid.Net.Objects.Models;
 
 namespace HyperLiquid.Net.Interfaces.Clients.BaseApi
@@ -37,5 +38,15 @@ namespace HyperLiquid.Net.Interfaces.Clients.BaseApi
             decimal quantity,
             string? fromSubAccount = null,
             CancellationToken ct = default);
+
+        /// <summary>
+        /// Get the account abstraction mode for a user. Under <see cref="UserAbstractionState.UnifiedAccount"/> and
+        /// <see cref="UserAbstractionState.PortfolioMargin"/> all balances and holds are reported in the spot clearinghouse
+        /// state and the individual perp DEX user states are not meaningful.
+        /// <para><a href="https://hyperliquid.gitbook.io/hyperliquid-docs/trading/account-abstraction-modes" /></para>
+        /// </summary>
+        /// <param name="address">Address to request the abstraction state for. If not provided will use the address provided in the API credentials</param>
+        /// <param name="ct">Cancellation token</param>
+        Task<WebCallResult<UserAbstractionState>> GetUserAbstractionStateAsync(string? address = null, CancellationToken ct = default);
     }
 }

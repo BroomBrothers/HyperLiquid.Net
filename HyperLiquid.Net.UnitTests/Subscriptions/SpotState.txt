@@ -1,0 +1,16 @@
+> {"subscription":{"type":"spotState","user":"mtiz"},"method":"subscribe"}
+< {"channel":"subscriptionResponse","data":{"method":"subscribe","subscription":{"type":"spotState","user":"mtiz","ignorePortfolioMargin":false}}}
+=
+{
+  "channel":"spotState",
+  "data":{
+    "user":"mtiz",
+    "spotState":{
+      "balances":[
+        {"coin":"USDC","token":0,"total":"349573.77971716","hold":"34224.0","entryNtl":"0.0"},
+        {"coin":"HYPE","token":150,"total":"0.26009724","hold":"0.0","entryNtl":"10.78463011"}
+      ],
+      "tokenToAvailableAfterMaintenance":[[0,"332474.77971716"],[235,"2.76457493"]]
+    }
+  }
+}
