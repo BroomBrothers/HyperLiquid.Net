@@ -82,7 +82,7 @@ namespace HyperLiquid.Net.Interfaces.Clients.BaseApi
         /// </summary>
         /// <param name="address">Address to request user TWAP trades for. If not provided will use the address provided in the API credentials</param>
         /// <param name="ct">Cancellation token</param>
-        public Task<WebCallResult<HyperLiquidUserTrade[]>> GetUserTwapTradesAsync(string? address = null, CancellationToken ct = default);
+        Task<HttpResult<HyperLiquidUserTrade[]>> GetUserTwapTradesAsync(string? address = null, CancellationToken ct = default);
 
         /// <summary>
         /// Get order info by id

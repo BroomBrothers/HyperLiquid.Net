@@ -60,6 +60,9 @@ namespace HyperLiquid.Net.Utils
         }
 
         internal static async Task<ICallResult> CheckBuilderFeeAsync(HyperLiquidRestClient client)
+            => await CheckBuilderFeeAsync(client, client.ClientOptions.BuilderFeePercentage).ConfigureAwait(false);
+
+        internal static async Task<ICallResult> CheckBuilderFeeAsync(HyperLiquidRestClient client, decimal? builderFeePercentage)
         {
             if (!client.SpotApi.Authenticated)
                 // No credentials provided, no need to check builder fee
@@ -69,10 +72,9 @@ namespace HyperLiquid.Net.Utils
             if (envName.Equals("UnitTest", StringComparison.Ordinal))
                 return CallResult.Ok();
 
-            var options = client.ClientOptions;
             var result = await CheckBuilderFeeAsync(
                 client.SpotApi.ApiCredentials!.Key,
-                options.BuilderFeePercentage,
+                builderFeePercentage,
                 async () => await client.SpotApi.Account.GetApprovedBuilderFeeAsync().ConfigureAwait(false),
                 async () => await client.SpotApi.Account.ApproveBuilderFeeAsync().ConfigureAwait(false)).ConfigureAwait(false);
 

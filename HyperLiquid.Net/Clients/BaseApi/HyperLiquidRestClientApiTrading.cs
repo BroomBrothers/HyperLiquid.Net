@@ -214,20 +214,20 @@ namespace HyperLiquid.Net.Clients.BaseApi
 
         #region Get User TWAP Trades
         /// <inheritdoc />
-        public async Task<WebCallResult<HyperLiquidUserTrade[]>> GetUserTwapTradesAsync(string? address = null, CancellationToken ct = default)
+        public async Task<HttpResult<HyperLiquidUserTrade[]>> GetUserTwapTradesAsync(string? address = null, CancellationToken ct = default)
         {
             if (address == null && _baseClient.AuthenticationProvider == null)
                 throw new ArgumentNullException(nameof(address), "Address needs to be provided if API credentials not set");
 
-            var parameters = new ParameterCollection()
+            var parameters = new Parameters(HyperLiquidExchange._parameterSerializationSettings)
             {
                 { "type", "userTwapSliceFills" },
-                { "user", address ?? _baseClient.AuthenticationProvider!.ApiKey }
+                { "user", address ?? _baseClient.AuthenticationProvider!.Key }
             };
-            var request = _definitions.GetOrCreate(HttpMethod.Post, "info", HyperLiquidExchange.RateLimiter.HyperLiquidRest, 20, false);
+            var request = _definitions.GetOrCreate(HttpMethod.Post, _baseClient.BaseAddress, "info", HyperLiquidExchange.RateLimiter.HyperLiquidRest, 20, false);
             var result = await _baseClient.SendAsync<HyperLiquidUserTwapFillResult[]>(request, parameters, ct).ConfigureAwait(false);
-            if (!result)
-                return result.As<HyperLiquidUserTrade[]>(default!);
+            if (!result.Success)
+                return HttpResult.Fail<HyperLiquidUserTrade[]>(result);
 
             foreach (var fill in result.Data)
             {
@@ -237,7 +237,7 @@ namespace HyperLiquid.Net.Clients.BaseApi
                 if (HyperLiquidUtils.ExchangeSymbolIsSpotSymbol(trade.ExchangeSymbol))
                 {
                     var symbolName = await HyperLiquidUtils.GetSymbolNameFromExchangeNameAsync(_baseClient.BaseClient, trade.ExchangeSymbol).ConfigureAwait(false);
-                    if (symbolName == null)
+                    if (!symbolName.Success)
                         continue;
 
                     trade.Symbol = symbolName.Data;
@@ -251,7 +251,7 @@ namespace HyperLiquid.Net.Clients.BaseApi
             }
 
             var trades = result.Data.Select(x => x.Fill).ToArray();
-            return result.As(trades);
+            return HttpResult.Ok(result, trades);
         }
 
         #endregion
@@ -400,11 +400,7 @@ namespace HyperLiquid.Net.Clients.BaseApi
             builderAddress ??= _baseClient.ClientOptions.BuilderAddress;
 
             var builderFeeKey = _baseClient.ApiCredentials?.Key ?? string.Empty;
-            await HyperLiquidUtils.CheckBuilderFeeAsync(
-                builderFeeKey,
-                builderFeePercentage,
-                async () => await _baseClient.BaseClient.SpotApi.Account.GetApprovedBuilderFeeAsync().ConfigureAwait(false),
-                async () => await _baseClient.BaseClient.SpotApi.Account.ApproveBuilderFeeAsync().ConfigureAwait(false)).ConfigureAwait(false);
+            await HyperLiquidUtils.CheckBuilderFeeAsync(_baseClient.BaseClient, builderFeePercentage).ConfigureAwait(false);
 
             var orderRequests = new List<Parameters>();
             foreach (var order in orders)
