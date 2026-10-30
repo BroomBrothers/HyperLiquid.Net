@@ -453,7 +453,7 @@ namespace HyperLiquid.Net.Clients.BaseApi
             });
 
             var addressSub = address ?? AuthenticationProvider!.ApiKey;
-            var subscription = new HyperLiquidSubscription<HyperLiquidClearinghouseStateUpdate>(_logger, this, "clearinghouseState", null, new Dictionary<string, object>
+            var subscription = new HyperLiquidSubscription<HyperLiquidClearinghouseStateUpdate>(_logger, this, "clearinghouseState", addressSub.ToLowerInvariant() + (dex ?? string.Empty), new Dictionary<string, object>
             {
                 { "user", addressSub.ToLowerInvariant() },
                 { "dex", dex ?? string.Empty },
