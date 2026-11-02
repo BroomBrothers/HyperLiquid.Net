@@ -10,6 +10,9 @@
         <member name="M:HyperLiquid.Net.Clients.BaseApi.HyperLiquidRestClientAccount.SendAssetAsync(System.String,System.String,System.String,System.String,System.String,System.Decimal,System.String,System.Threading.CancellationToken)">
             <inheritdoc />
         </member>
+        <member name="M:HyperLiquid.Net.Clients.BaseApi.HyperLiquidRestClientAccount.GetUserAbstractionStateAsync(System.String,System.Threading.CancellationToken)">
+            <inheritdoc />
+        </member>
         <member name="P:HyperLiquid.Net.Clients.BaseApi.HyperLiquidRestClientApi.ExchangeName">
             <inheritdoc />
         </member>
@@ -132,6 +135,12 @@
             <inheritdoc />
         </member>
         <member name="M:HyperLiquid.Net.Clients.BaseApi.HyperLiquidSocketClientApi.SubscribeToUserUpdatesAsync(System.String,System.Action{CryptoExchange.Net.Objects.Sockets.DataEvent{HyperLiquid.Net.Objects.Models.HyperLiquidUserUpdate}},System.Threading.CancellationToken)">
+            <inheritdoc />
+        </member>
+        <member name="M:HyperLiquid.Net.Clients.BaseApi.HyperLiquidSocketClientApi.SubscribeToClearinghouseStateUpdatesAsync(System.String,System.String,System.Action{CryptoExchange.Net.Objects.Sockets.DataEvent{HyperLiquid.Net.Objects.Models.HyperLiquidClearinghouseStateUpdate}},System.Threading.CancellationToken)">
+            <inheritdoc />
+        </member>
+        <member name="M:HyperLiquid.Net.Clients.BaseApi.HyperLiquidSocketClientApi.SubscribeToBalanceUpdatesAsync(System.String,System.Action{CryptoExchange.Net.Objects.Sockets.DataEvent{HyperLiquid.Net.Objects.Models.HyperLiquidBalanceUpdate}},System.Threading.CancellationToken)">
             <inheritdoc />
         </member>
         <member name="M:HyperLiquid.Net.Clients.BaseApi.HyperLiquidSocketClientApi.SubscribeToUserTradeUpdatesAsync(System.String,System.Action{CryptoExchange.Net.Objects.Sockets.DataEvent{HyperLiquid.Net.Objects.Models.HyperLiquidUserTrade[]}},System.Threading.CancellationToken)">
@@ -549,6 +558,11 @@
             Defines the source generated JSON serialization contract metadata for a given type.
             </summary>
         </member>
+        <member name="P:HyperLiquid.Net.Converters.HyperLiquidSourceGenerationContext.UserAbstractionState">
+            <summary>
+            Defines the source generated JSON serialization contract metadata for a given type.
+            </summary>
+        </member>
         <member name="P:HyperLiquid.Net.Converters.HyperLiquidSourceGenerationContext.UserRole">
             <summary>
             Defines the source generated JSON serialization contract metadata for a given type.
@@ -639,7 +653,17 @@
             Defines the source generated JSON serialization contract metadata for a given type.
             </summary>
         </member>
+        <member name="P:HyperLiquid.Net.Converters.HyperLiquidSourceGenerationContext.HyperLiquidSocketUpdateHyperLiquidBalanceUpdate">
+            <summary>
+            Defines the source generated JSON serialization contract metadata for a given type.
+            </summary>
+        </member>
         <member name="P:HyperLiquid.Net.Converters.HyperLiquidSourceGenerationContext.HyperLiquidSocketUpdateHyperLiquidBookTicker">
+            <summary>
+            Defines the source generated JSON serialization contract metadata for a given type.
+            </summary>
+        </member>
+        <member name="P:HyperLiquid.Net.Converters.HyperLiquidSourceGenerationContext.HyperLiquidSocketUpdateHyperLiquidClearinghouseStateUpdate">
             <summary>
             Defines the source generated JSON serialization contract metadata for a given type.
             </summary>
@@ -844,6 +868,11 @@
             Defines the source generated JSON serialization contract metadata for a given type.
             </summary>
         </member>
+        <member name="P:HyperLiquid.Net.Converters.HyperLiquidSourceGenerationContext.HyperLiquidBalanceUpdate">
+            <summary>
+            Defines the source generated JSON serialization contract metadata for a given type.
+            </summary>
+        </member>
         <member name="P:HyperLiquid.Net.Converters.HyperLiquidSourceGenerationContext.HyperLiquidBookTicker">
             <summary>
             Defines the source generated JSON serialization contract metadata for a given type.
@@ -875,6 +904,11 @@
             </summary>
         </member>
         <member name="P:HyperLiquid.Net.Converters.HyperLiquidSourceGenerationContext.HyperLiquidCancelResultArray">
+            <summary>
+            Defines the source generated JSON serialization contract metadata for a given type.
+            </summary>
+        </member>
+        <member name="P:HyperLiquid.Net.Converters.HyperLiquidSourceGenerationContext.HyperLiquidClearinghouseStateUpdate">
             <summary>
             Defines the source generated JSON serialization contract metadata for a given type.
             </summary>
@@ -1709,6 +1743,11 @@
             Defines the source generated JSON serialization contract metadata for a given type.
             </summary>
         </member>
+        <member name="P:HyperLiquid.Net.Converters.HyperLiquidSourceGenerationContext.DictionaryInt64Decimal">
+            <summary>
+            Defines the source generated JSON serialization contract metadata for a given type.
+            </summary>
+        </member>
         <member name="P:HyperLiquid.Net.Converters.HyperLiquidSourceGenerationContext.DictionaryStringDecimal">
             <summary>
             Defines the source generated JSON serialization contract metadata for a given type.
@@ -2310,6 +2349,36 @@
             Error
             </summary>
         </member>
+        <member name="T:HyperLiquid.Net.Enums.UserAbstractionState">
+            <summary>
+            User abstraction state
+            </summary>
+        </member>
+        <member name="F:HyperLiquid.Net.Enums.UserAbstractionState.UnifiedAccount">
+            <summary>
+            ["<c>unifiedAccount</c>"] Unified account
+            </summary>
+        </member>
+        <member name="F:HyperLiquid.Net.Enums.UserAbstractionState.PortfolioMargin">
+            <summary>
+            ["<c>portfolioMargin</c>"] Portfolio margin
+            </summary>
+        </member>
+        <member name="F:HyperLiquid.Net.Enums.UserAbstractionState.Disabled">
+            <summary>
+            ["<c>disabled</c>"] Disabled
+            </summary>
+        </member>
+        <member name="F:HyperLiquid.Net.Enums.UserAbstractionState.Default">
+            <summary>
+            ["<c>default</c>"] Default
+            </summary>
+        </member>
+        <member name="F:HyperLiquid.Net.Enums.UserAbstractionState.DexAbstraction">
+            <summary>
+            ["<c>dexAbstraction</c>"] DEX abstraction
+            </summary>
+        </member>
         <member name="T:HyperLiquid.Net.Enums.UserRole">
             <summary>
             User role
@@ -2542,6 +2611,16 @@
             <param name="tokenId">Token id, for example `0xc4bf3f870c0e9465323c0b6ed28096c2`</param>
             <param name="quantity">Quantity to send</param>
             <param name="fromSubAccount">Source sub account</param>
+            <param name="ct">Cancellation token</param>
+        </member>
+        <member name="M:HyperLiquid.Net.Interfaces.Clients.BaseApi.IHyperLiquidRestClientAccount.GetUserAbstractionStateAsync(System.String,System.Threading.CancellationToken)">
+            <summary>
+            Get the account abstraction mode for a user. Under <see cref="F:HyperLiquid.Net.Enums.UserAbstractionState.UnifiedAccount"/> and
+            <see cref="F:HyperLiquid.Net.Enums.UserAbstractionState.PortfolioMargin"/> all balances and holds are reported in the spot clearinghouse
+            state and the individual perp DEX user states are not meaningful.
+            <para><a href="https://hyperliquid.gitbook.io/hyperliquid-docs/trading/account-abstraction-modes" /></para>
+            </summary>
+            <param name="address">Address to request the abstraction state for. If not provided will use the address provided in the API credentials</param>
             <param name="ct">Cancellation token</param>
         </member>
         <member name="T:HyperLiquid.Net.Interfaces.Clients.BaseApi.IHyperLiquidRestClientExchangeData">
@@ -2920,6 +2999,17 @@
             <param name="ct">Cancellation token for closing this subscription</param>
             <returns>A stream subscription. This stream subscription can be used to be notified when the socket is disconnected/reconnected and to unsubscribe</returns>
         </member>
+        <member name="M:HyperLiquid.Net.Interfaces.Clients.BaseApi.IHyperLiquidSocketClientApi.SubscribeToClearinghouseStateUpdatesAsync(System.String,System.String,System.Action{CryptoExchange.Net.Objects.Sockets.DataEvent{HyperLiquid.Net.Objects.Models.HyperLiquidClearinghouseStateUpdate}},System.Threading.CancellationToken)">
+            <summary>
+            Subscribe to futures clearinghouse state updates
+            <para><a href="https://hyperliquid.gitbook.io/hyperliquid-docs/for-developers/api/websocket/subscriptions" /></para>
+            </summary>
+            <param name="address">Address to subscribe for. If not provided will use the address provided in the API credentials</param>
+            <param name="dex">Perpetual DEX name. Use an empty value for the default DEX</param>
+            <param name="onMessage">The data handler</param>
+            <param name="ct">Cancellation token for closing this subscription</param>
+            <returns>A stream subscription. This stream subscription can be used to be notified when the socket is disconnected/reconnected and to unsubscribe</returns>
+        </member>
         <member name="M:HyperLiquid.Net.Interfaces.Clients.BaseApi.IHyperLiquidSocketClientApi.SubscribeToTwapTradeUpdatesAsync(System.String,System.Action{CryptoExchange.Net.Objects.Sockets.DataEvent{HyperLiquid.Net.Objects.Models.HyperLiquidUserTrade[]}},System.Threading.CancellationToken)">
             <summary>
             Subscribe to Time Weighted Average Price trade updates, will provided updates for both Spot and Futures orders
@@ -2933,6 +3023,20 @@
         <member name="M:HyperLiquid.Net.Interfaces.Clients.BaseApi.IHyperLiquidSocketClientApi.SubscribeToTwapOrderUpdatesAsync(System.String,System.Action{CryptoExchange.Net.Objects.Sockets.DataEvent{HyperLiquid.Net.Objects.Models.HyperLiquidTwapHistoryStatus[]}},System.Threading.CancellationToken)">
             <summary>
             Subscribe to Time Weighted Average Price order history updates, will provided updates for both Spot and Futures orders
+            <para><a href="https://hyperliquid.gitbook.io/hyperliquid-docs/for-developers/api/websocket/subscriptions" /></para>
+            </summary>
+            <param name="address">Address to subscribe for. If not provided will use the address provided in the API credentials</param>
+            <param name="onMessage">The data handler</param>
+            <param name="ct">Cancellation token for closing this subscription</param>
+            <returns>A stream subscription. This stream subscription can be used to be notified when the socket is disconnected/reconnected and to unsubscribe</returns>
+        </member>
+        <member name="M:HyperLiquid.Net.Interfaces.Clients.BaseApi.IHyperLiquidSocketClientApi.SubscribeToBalanceUpdatesAsync(System.String,System.Action{CryptoExchange.Net.Objects.Sockets.DataEvent{HyperLiquid.Net.Objects.Models.HyperLiquidBalanceUpdate}},System.Threading.CancellationToken)">
+            <summary>
+            Subscribe to spot balance updates. Under unified account or portfolio margin this is the source of truth
+            for the trading account balance across both spot and perps: the balance total includes the collateral
+            backing perp positions and moves with unrealized pnl, and the hold reflects the margin in use. Note this
+            differs from the spotState carried on the webData2 user stream, which reports the pre-unified spot-only
+            balance
             <para><a href="https://hyperliquid.gitbook.io/hyperliquid-docs/for-developers/api/websocket/subscriptions" /></para>
             </summary>
             <param name="address">Address to subscribe for. If not provided will use the address provided in the API credentials</param>
@@ -3300,7 +3404,9 @@
         </member>
         <member name="M:HyperLiquid.Net.Interfaces.Clients.SpotApi.IHyperLiquidRestClientSpotApiAccount.GetBalancesAsync(System.String,System.Threading.CancellationToken)">
             <summary>
-            Get user asset balances
+            Get the spot clearinghouse state, containing the user asset balances. Under unified account or portfolio
+            margin this is the source of truth for the trading account balance across both spot and perps; the balance
+            total includes collateral backing perp positions and the hold reflects the margin in use.
             <para><a href="https://hyperliquid.gitbook.io/hyperliquid-docs/for-developers/api/info-endpoint/spot#retrieve-a-users-token-balances" /></para>
             </summary>
             <param name="address">Address to request balances for. If not provided will use the address provided in the API credentials</param>
@@ -3921,6 +4027,33 @@
             Balances
             </summary>
         </member>
+        <member name="P:HyperLiquid.Net.Objects.Models.HyperLiquidBalances.PortfolioMarginEnabled">
+            <summary>
+            Portfolio margin enabled. Only returned for accounts in portfolio margin mode
+            </summary>
+        </member>
+        <member name="P:HyperLiquid.Net.Objects.Models.HyperLiquidBalances.PortfolioMarginRatio">
+            <summary>
+            Portfolio margin ratio. Only returned for accounts in portfolio margin mode
+            </summary>
+        </member>
+        <member name="P:HyperLiquid.Net.Objects.Models.HyperLiquidBalances.TokenPortfolioBorrowRatio">
+            <summary>
+            Portfolio margin borrow ratio per token
+            </summary>
+        </member>
+        <member name="P:HyperLiquid.Net.Objects.Models.HyperLiquidBalances.TokenPortfolioSupplyRatio">
+            <summary>
+            Portfolio margin supply ratio per token
+            </summary>
+        </member>
+        <member name="P:HyperLiquid.Net.Objects.Models.HyperLiquidBalances.TokenAvailableAfterMaintenance">
+            <summary>
+            Quantity per token which is available to deploy, withdraw or transfer after the maintenance margin
+            requirement and any holds are accounted for. Only returned for accounts in unified account or portfolio
+            margin mode, which makes it a usable signal that an account is no longer in standard mode
+            </summary>
+        </member>
         <member name="T:HyperLiquid.Net.Objects.Models.HyperLiquidBalance">
             <summary>
             Balance info
@@ -3941,6 +4074,14 @@
             In holding
             </summary>
         </member>
+        <member name="P:HyperLiquid.Net.Objects.Models.HyperLiquidBalance.SpotHold">
+            <summary>
+            In holding, before portfolio margin borrow capacity is netted off. Null when not sent, which has been
+            observed for tokens carrying a zero <see cref="P:HyperLiquid.Net.Objects.Models.HyperLiquidBalance.Hold"/>. Subtracting it from <see cref="P:HyperLiquid.Net.Objects.Models.HyperLiquidBalance.Total"/> leaves the
+            balance actually owned and unencumbered, whereas subtracting <see cref="P:HyperLiquid.Net.Objects.Models.HyperLiquidBalance.Hold"/> leaves an amount that also
+            includes what could be borrowed
+            </summary>
+        </member>
         <member name="P:HyperLiquid.Net.Objects.Models.HyperLiquidBalance.Total">
             <summary>
             Total
@@ -3949,6 +4090,21 @@
         <member name="P:HyperLiquid.Net.Objects.Models.HyperLiquidBalance.EntryNotional">
             <summary>
             Entry notional
+            </summary>
+        </member>
+        <member name="T:HyperLiquid.Net.Objects.Models.HyperLiquidBalanceUpdate">
+            <summary>
+            Spot balance update
+            </summary>
+        </member>
+        <member name="P:HyperLiquid.Net.Objects.Models.HyperLiquidBalanceUpdate.User">
+            <summary>
+            User address
+            </summary>
+        </member>
+        <member name="P:HyperLiquid.Net.Objects.Models.HyperLiquidBalanceUpdate.SpotBalances">
+            <summary>
+            Spot balances
             </summary>
         </member>
         <member name="T:HyperLiquid.Net.Objects.Models.HyperLiquidBookTicker">
@@ -4019,6 +4175,26 @@
         <member name="T:HyperLiquid.Net.Objects.Models.HyperLiquidCancelResult">
             <summary>
             Cancel result
+            </summary>
+        </member>
+        <member name="T:HyperLiquid.Net.Objects.Models.HyperLiquidClearinghouseStateUpdate">
+            <summary>
+            Futures clearinghouse state update
+            </summary>
+        </member>
+        <member name="P:HyperLiquid.Net.Objects.Models.HyperLiquidClearinghouseStateUpdate.User">
+            <summary>
+            User address
+            </summary>
+        </member>
+        <member name="P:HyperLiquid.Net.Objects.Models.HyperLiquidClearinghouseStateUpdate.Dex">
+            <summary>
+            Perpetual DEX name
+            </summary>
+        </member>
+        <member name="P:HyperLiquid.Net.Objects.Models.HyperLiquidClearinghouseStateUpdate.ClearinghouseState">
+            <summary>
+            Futures account state
             </summary>
         </member>
         <member name="T:HyperLiquid.Net.Objects.Models.HyperLiquidEditOrderRequest">

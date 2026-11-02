@@ -28,7 +28,8 @@ namespace HyperLiquid.Net.Clients.MessageHandlers
                 x.Data.Subscription.TryGetValue("interval", out var interval);
                 x.Data.Subscription.TryGetValue("user", out var user);
                 x.Data.Subscription.TryGetValue("nSigFigs", out var nSigFigs);
-                return type?.ToString() + coin?.ToString() + interval?.ToString() + user?.ToString() + nSigFigs;
+                x.Data.Subscription.TryGetValue("dex", out var dex);
+                return type?.ToString() + coin?.ToString() + interval?.ToString() + user?.ToString() + nSigFigs + dex?.ToString();
             });
             AddTopicMapping<HyperLiquidSocketUpdate<string>>(x =>
             {
@@ -59,7 +60,8 @@ namespace HyperLiquid.Net.Clients.MessageHandlers
                 var coin = jsonDoc.RootElement.TryGetProperty("coin", out var coinProp) ? coinProp.GetString() : null;
                 var interval = jsonDoc.RootElement.TryGetProperty("interval", out var intervalProp) ? intervalProp.GetString() : null;
                 var user = jsonDoc.RootElement.TryGetProperty("user", out var userProp) ? userProp.GetString() : null;
-                return type?.ToString() + coin?.ToString() + interval?.ToString() + user?.ToString();
+                var dex = jsonDoc.RootElement.TryGetProperty("dex", out var dexProp) ? dexProp.GetString() : null;
+                return type?.ToString() + coin?.ToString() + interval?.ToString() + user?.ToString() + dex;
             });
 
             AddTopicMapping<HyperLiquidSocketUpdate<HyperLiquidKline>>(x => x.Data.Symbol + x.Data.Interval);
@@ -69,6 +71,7 @@ namespace HyperLiquid.Net.Clients.MessageHandlers
             AddTopicMapping<HyperLiquidSocketUpdate<HyperLiquidFuturesUserSymbolUpdate>>(x => x.Data.Symbol);
             AddTopicMapping<HyperLiquidSocketUpdate<HyperLiquidTickerUpdate>>(x => x.Data.Symbol);
             AddTopicMapping<HyperLiquidSocketUpdate<HyperLiquidBookTicker>>(x => x.Data.Symbol);
+            AddTopicMapping<HyperLiquidSocketUpdate<HyperLiquidClearinghouseStateUpdate>>(x => x.Data.User.ToLowerInvariant() + x.Data.Dex);
         }
 
         protected override MessageTypeDefinition[] TypeEvaluators { get; } = [

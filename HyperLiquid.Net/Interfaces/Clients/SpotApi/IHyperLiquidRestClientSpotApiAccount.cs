@@ -15,12 +15,14 @@ namespace HyperLiquid.Net.Interfaces.Clients.SpotApi
     public interface IHyperLiquidRestClientSpotApiAccount : IHyperLiquidRestClientAccount
     {
         /// <summary>
-        /// Get user asset balances
+        /// Get the spot clearinghouse state, containing the user asset balances. Under unified account or portfolio
+        /// margin this is the source of truth for the trading account balance across both spot and perps; the balance
+        /// total includes collateral backing perp positions and the hold reflects the margin in use.
         /// <para><a href="https://hyperliquid.gitbook.io/hyperliquid-docs/for-developers/api/info-endpoint/spot#retrieve-a-users-token-balances" /></para>
         /// </summary>
         /// <param name="address">Address to request balances for. If not provided will use the address provided in the API credentials</param>
         /// <param name="ct">Cancellation token</param>
-        Task<WebCallResult<HyperLiquidBalance[]>> GetBalancesAsync(string? address = null, CancellationToken ct = default);
+        Task<WebCallResult<HyperLiquidBalances>> GetBalancesAsync(string? address = null, CancellationToken ct = default);
 
         /// <summary>
         /// Get user account ledger
