@@ -433,6 +433,62 @@ namespace HyperLiquid.Net.Clients.BaseApi
         }
 
         /// <inheritdoc />
+        public async Task<CallResult<UpdateSubscription>> SubscribeToClearinghouseStateUpdatesAsync(string? address, string? dex, Action<DataEvent<HyperLiquidClearinghouseStateUpdate>> onMessage, CancellationToken ct = default)
+        {
+            if (address == null && AuthenticationProvider == null)
+                throw new ArgumentNullException(nameof(address), "Address needs to be provided if API credentials not set");
+
+            ValidateAddress(address);
+
+            var internalHandler = new Action<DateTime, string?, int, HyperLiquidSocketUpdate<HyperLiquidClearinghouseStateUpdate>>((receiveTime, originalData, invocation, data) =>
+            {
+                UpdateTimeOffset(data.Data.ClearinghouseState.Timestamp);
+
+                onMessage(
+                    new DataEvent<HyperLiquidClearinghouseStateUpdate>(HyperLiquidExchange.ExchangeName, data.Data, receiveTime, originalData)
+                        .WithUpdateType(SocketUpdateType.Update)
+                        .WithStreamId(data.Channel)
+                        .WithDataTimestamp(data.Data.ClearinghouseState.Timestamp, GetTimeOffset())
+                    );
+            });
+
+            var addressSub = address ?? AuthenticationProvider!.ApiKey;
+            var subscription = new HyperLiquidSubscription<HyperLiquidClearinghouseStateUpdate>(_logger, this, "clearinghouseState", addressSub.ToLowerInvariant() + (dex ?? string.Empty), new Dictionary<string, object>
+            {
+                { "user", addressSub.ToLowerInvariant() },
+                { "dex", dex ?? string.Empty },
+            },
+            internalHandler, false);
+            return await SubscribeAsync(BaseAddress.AppendPath("ws"), subscription, ct).ConfigureAwait(false);
+        }
+
+        /// <inheritdoc />
+        public async Task<CallResult<UpdateSubscription>> SubscribeToBalanceUpdatesAsync(string? address, Action<DataEvent<HyperLiquidBalanceUpdate>> onMessage, CancellationToken ct = default)
+        {
+            if (address == null && AuthenticationProvider == null)
+                throw new ArgumentNullException(nameof(address), "Address needs to be provided if API credentials not set");
+
+            ValidateAddress(address);
+
+            var internalHandler = new Action<DateTime, string?, int, HyperLiquidSocketUpdate<HyperLiquidBalanceUpdate>>((receiveTime, originalData, invocation, data) =>
+            {
+                onMessage(
+                    new DataEvent<HyperLiquidBalanceUpdate>(HyperLiquidExchange.ExchangeName, data.Data, receiveTime, originalData)
+                        .WithUpdateType(SocketUpdateType.Update)
+                        .WithStreamId(data.Channel)
+                    );
+            });
+
+            var addressSub = (address ?? AuthenticationProvider!.ApiKey).ToLowerInvariant();
+            var subscription = new HyperLiquidSubscription<HyperLiquidBalanceUpdate>(_logger, this, "spotState", addressSub, new Dictionary<string, object>
+            {
+                { "user", addressSub },
+            },
+            internalHandler, false);
+            return await SubscribeAsync(BaseAddress.AppendPath("ws"), subscription, ct).ConfigureAwait(false);
+        }
+
+        /// <inheritdoc />
         public async Task<CallResult<UpdateSubscription>> SubscribeToUserTradeUpdatesAsync(string? address, Action<DataEvent<HyperLiquidUserTrade[]>> onMessage, CancellationToken ct = default)
         {
             if (address == null && AuthenticationProvider == null)
