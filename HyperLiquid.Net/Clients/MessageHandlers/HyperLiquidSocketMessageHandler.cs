@@ -71,6 +71,7 @@ namespace HyperLiquid.Net.Clients.MessageHandlers
             AddTopicMapping<HyperLiquidSocketUpdate<HyperLiquidFuturesUserSymbolUpdate>>(x => x.Data.Symbol);
             AddTopicMapping<HyperLiquidSocketUpdate<HyperLiquidTickerUpdate>>(x => x.Data.Symbol);
             AddTopicMapping<HyperLiquidSocketUpdate<HyperLiquidBookTicker>>(x => x.Data.Symbol);
+            AddTopicMapping<HyperLiquidSocketUpdate<HyperLiquidBalanceUpdate>>(x => x.Data.User.ToLowerInvariant());
             AddTopicMapping<HyperLiquidSocketUpdate<HyperLiquidClearinghouseStateUpdate>>(x => x.Data.User.ToLowerInvariant() + x.Data.Dex);
         }
 

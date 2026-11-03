@@ -479,10 +479,10 @@ namespace HyperLiquid.Net.Clients.BaseApi
                     );
             });
 
-            var addressSub = address ?? AuthenticationProvider!.ApiKey;
-            var subscription = new HyperLiquidSubscription<HyperLiquidBalanceUpdate>(_logger, this, "spotState", null, new Dictionary<string, object>
+            var addressSub = (address ?? AuthenticationProvider!.ApiKey).ToLowerInvariant();
+            var subscription = new HyperLiquidSubscription<HyperLiquidBalanceUpdate>(_logger, this, "spotState", addressSub, new Dictionary<string, object>
             {
-                { "user", addressSub.ToLowerInvariant() },
+                { "user", addressSub },
             },
             internalHandler, false);
             return await SubscribeAsync(BaseAddress.AppendPath("ws"), subscription, ct).ConfigureAwait(false);
